@@ -71,9 +71,13 @@ if(ENV_QT)
   # Instruct CMake to run moc automatically when needed.
   # set(CMAKE_AUTOMOC ON)
 
+  # try glfw
+  set(USE_GLFW ON)
+  add_definitions( -DUSE_GLFW )
+
   add_definitions( -DCC_TARGET_QT5 -DUSE_FILE32API -DGLEW_STATIC )
 
-  set(QT5_DIR "/Users/jennal/qt/5.3")
+  set(QT5_DIR "/Users/jennal/Qt5.4.0/5.4")
   set(QT5_INCLUDE_DIR "${QT5_DIR}/Src/qtbase/include")
   set(QT5_CMAKE_DIR "${QT5_DIR}/clang_64/lib/cmake")
 #  set(Qt5Core_DIR "${QT5_CMAKE_DIR}/Qt5Core")
@@ -134,7 +138,7 @@ elseif(APPLE)
 
 
 else()#Linux
-ADD_DEFINITIONS(-DLINUX)
+  ADD_DEFINITIONS(-DLINUX)
 endif()
 
 
@@ -252,6 +256,12 @@ if(WIN32)
 
 elseif(APPLE)
 
+  # if(USE_GLFW)
+  #   include_directories(
+  #     /System/Library/Frameworks/Tk.framework/Versions/8.5/Headers/
+  #   )
+  # endif(USE_FLFW)
+
   link_directories(
     /usr/local/lib
     /usr/lib
@@ -261,6 +271,21 @@ elseif(APPLE)
   find_library(LIB_FOUNDATION Foundation)
   find_library(LIB_OPENGL OpenGL)
   find_library(LIB_AGL AGL)
+  # find_library(LIB_TK Tk)
+
+  message("LIB_COCOA: " ${LIB_COCOA})
+  message("LIB_FOUNDATION: " ${LIB_FOUNDATION})
+  message("LIB_OPENGL: " ${LIB_OPENGL})
+  message("LIB_AGL: " ${LIB_AGL})
+  # message("LIB_TK: " ${LIB_TK})
+
+  set(LINK_LIB_APPLE
+    ${LIB_COCOA}
+    ${LIB_FOUNDATION}
+    ${LIB_OPENGL}
+    ${LIB_AGL}
+    # ${LIB_TK}
+  )
 
 else()
 

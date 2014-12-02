@@ -37,17 +37,17 @@ bool HelloWorld::init()
     //    you may modify it.
 
     // add a "close" icon to exit the progress. it's an autorelease object
-//    auto closeItem = MenuItemImage::create(
-//                                        "CloseNormal.png",
-//                                        "CloseSelected.png",
-//                                        CC_CALLBACK_1(HelloWorld::menuCloseCallback,this));
+    auto closeItem = MenuItemImage::create(
+                                        "CloseNormal.png",
+                                        "CloseSelected.png",
+                                        CC_CALLBACK_1(HelloWorld::menuCloseCallback,this));
     
-//    closeItem->setPosition(origin + Vec2(visibleSize) - Vec2(closeItem->getContentSize() / 2));
+    closeItem->setPosition(origin + Vec2(visibleSize) - Vec2(closeItem->getContentSize() / 2));
 
-//    // create menu, it's an autorelease object
-//    auto menu = Menu::create(closeItem, NULL);
-//    menu->setPosition(Vec2::ZERO);
-//    this->addChild(menu, 1);
+    // create menu, it's an autorelease object
+    auto menu = Menu::create(closeItem, NULL);
+    menu->setPosition(Vec2::ZERO);
+    this->addChild(menu, 1);
     
     /////////////////////////////
     // 3. add your codes below...
@@ -55,23 +55,23 @@ bool HelloWorld::init()
     // add a label shows "Hello World"
     // create and initialize a label
     
-//    auto label = LabelTTF::create("Hello World", "Arial", TITLE_FONT_SIZE);
+    auto label = LabelTTF::create("Hello World", "Arial", TITLE_FONT_SIZE);
     
-//    // position the label on the center of the screen
-//    label->setPosition(Vec2(origin.x + visibleSize.width/2,
-//                            origin.y + visibleSize.height - label->getContentSize().height));
+    // position the label on the center of the screen
+    label->setPosition(Vec2(origin.x + visibleSize.width/2,
+                            origin.y + visibleSize.height - label->getContentSize().height));
 
-//    // add the label as a child to this layer
-//    this->addChild(label, 1);
+    // add the label as a child to this layer
+    this->addChild(label, 1);
 
     // add "HelloWorld" splash screen"
-//    auto sprite = Sprite::create("HelloWorld.png");
+    auto sprite = Sprite::create("HelloWorld.png");
 
-//    // position the sprite on the center of the screen
-//    sprite->setPosition(Vec2(visibleSize / 2) + origin);
+    // position the sprite on the center of the screen
+    sprite->setPosition(Vec2(visibleSize / 2) + origin);
 
-//    // add the sprite as a child to this layer
-//    this->addChild(sprite);
+    // add the sprite as a child to this layer
+    this->addChild(sprite);
     
     return true;
 }

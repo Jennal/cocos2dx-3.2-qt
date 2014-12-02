@@ -1,5 +1,6 @@
 # CMake
 CMakeLists.txt.user
+CMakeLists.txt.user*
 CMakeCache.txt
 CMakeFiles
 Makefile

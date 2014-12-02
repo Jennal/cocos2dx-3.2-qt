@@ -77,9 +77,10 @@ set(COCOS_LINK
   webp
   tiff
   freetype
+  fontconfig
   png
   websockets
-#  glfw3
+  glfw3
   GLEW
 #  GL
   z

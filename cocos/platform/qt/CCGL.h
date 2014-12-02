@@ -30,8 +30,6 @@ THE SOFTWARE.
 
 #include "base/CCPlatformConfig.h"
 #include <gl/glew.h>
-#include <QtGui/qopengl.h>
-// #include <gl/glxew.h>
 
 
 #define CC_GL_DEPTH24_STENCIL8		GL_DEPTH24_STENCIL8

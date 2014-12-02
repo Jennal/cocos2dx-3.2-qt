@@ -48,16 +48,8 @@ if(ENV_QT)
   target_link_libraries(${APP_NAME} Qt5::OpenGL)
 endif(ENV_QT)
 
-message("LIB_COCOA" ${LIB_COCOA})
-message("LIB_FOUNDATION" ${LIB_FOUNDATION})
-message("LIB_OPENGL" ${LIB_OPENGL})
-message("LIB_AGL" ${LIB_AGL})
-
 if(APPLE)
-  target_link_libraries(${APP_NAME} ${LIB_COCOA})
-  target_link_libraries(${APP_NAME} ${LIB_FOUNDATION})
-  target_link_libraries(${APP_NAME} ${LIB_OPENGL})
-  target_link_libraries(${APP_NAME} ${LIB_AGL})
+  target_link_libraries(${APP_NAME} ${LINK_LIB_APPLE})
 endif(APPLE)
 
 if(WIN32 AND MSVC)

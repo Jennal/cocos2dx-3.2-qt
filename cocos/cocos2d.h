@@ -172,10 +172,17 @@ THE SOFTWARE.
 #include "base/CCPlatformMacros.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_QT5)
+  #ifdef USE_GLFW
+    #include "platform/qt/glfw/CCApplication.h"
+    #include "platform/desktop/CCGLView.h"
+    #include "platform/qt/glfw/CCGL.h"
+    #include "platform/qt/glfw/CCStdC.h"
+  #else
     #include "platform/qt/CCApplication.h"
     #include "platform/qt/CCGLView.h"
     #include "platform/qt/CCGL.h"
     #include "platform/qt/CCStdC.h"
+  #endif
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_QT5
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)

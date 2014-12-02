@@ -1,19 +1,35 @@
 if(ENV_QT)
 
-qt5_wrap_cpp(QT_MOC_FILES
-  platform/qt/CCApplication.h
-  platform/qt/CCGLWidget.h
-)
+if(USE_GLFW)
+  qt5_wrap_cpp(QT_MOC_FILES
+    platform/qt/CCApplication.h
+  )
 
-set(COCOS_PLATFORM_SPECIFIC_SRC
-  platform/qt/CCApplication.cpp
-  platform/qt/CCCommon.cpp
-  platform/qt/CCDevice.cpp
-  platform/qt/CCFileUtilsQt.cpp
-  platform/qt/CCGLView.cpp
-  platform/qt/CCGLWidget.cpp
-  ${QT_MOC_FILES}
-)
+  set(COCOS_PLATFORM_SPECIFIC_SRC
+    platform/desktop/CCGLView.cpp
+    platform/qt/glfw/CCApplication.cpp
+    platform/qt/glfw/CCCommon.cpp
+    platform/qt/glfw/CCDevice.cpp
+    platform/qt/CCFileUtilsQt.cpp
+    # platform/qt/glfw/CCStdC.cpp
+    ${QT_MOC_FILES}
+  )
+else()
+  qt5_wrap_cpp(QT_MOC_FILES
+    platform/qt/CCApplication.h
+    platform/qt/CCGLWidget.h
+  )
+  
+  set(COCOS_PLATFORM_SPECIFIC_SRC
+    platform/qt/CCApplication.cpp
+    platform/qt/CCCommon.cpp
+    platform/qt/CCDevice.cpp
+    platform/qt/CCFileUtilsQt.cpp
+    platform/qt/CCGLView.cpp
+    platform/qt/CCGLWidget.cpp
+    ${QT_MOC_FILES}
+  )
+endif(USE_GLFW)
 
 elseif(WIN32)
 

@@ -5,7 +5,9 @@
 
 #include "HelloWorldScene.h"
 #include "AppMacros.h"
-#include "MainWindow.h"
+#ifndef USE_GLFW
+    #include "MainWindow.h"
+#endif
 
 USING_NS_CC;
 using namespace std;
@@ -24,11 +26,15 @@ bool AppDelegate::applicationDidFinishLaunching() {
     auto director = Director::getInstance();
     auto glview = director->getOpenGLView();
     if(!glview) {
+#ifdef USE_GLFW
+        glview = GLView::create("Cpp Empty Test");
+#else
         glview = GLView::create(m_mainWindow.getGLWidget());
         m_mainWindow.show();
+#endif
 //        return true;
-        director->resume();
-        director->startAnimation();
+//        director->resume();
+//        director->startAnimation();
         director->setOpenGLView(glview);
     }
 

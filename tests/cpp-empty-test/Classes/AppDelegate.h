@@ -2,7 +2,9 @@
 #define  _APP_DELEGATE_H_
 
 #include "cocos2d.h"
-#include "MainWindow.h"
+#ifndef USE_GLFW
+    #include "MainWindow.h"
+#endif
 
 /**
 @brief    The cocos2d Application.
@@ -35,7 +37,9 @@ public:
     virtual void applicationWillEnterForeground();
 
 private:
+#ifndef USE_GLFW
     MainWindow m_mainWindow;
+#endif
 };
 
 #endif // _APP_DELEGATE_H_

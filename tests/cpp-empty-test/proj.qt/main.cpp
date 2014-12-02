@@ -1,8 +1,11 @@
-#include "MainWindow.h"
 #include "cocos2d.h"
 #include "AppDelegate.h"
-#include <QApplication>
-#include <QtOpenGL/QGLWidget>
+
+#ifndef USE_GLFW
+    #include "MainWindow.h"
+    #include <QApplication>
+    #include <QtOpenGL/QGLWidget>
+#endif
 
 int main(int argc, char *argv[])
 {
