@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>537AF1B1-7AEE-40D7-8790-2D960F128D3B</string>
+	<key>IDESourceControlProjectName</key>
+	<string>cocos2d_tests</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>ab6ed03e-1b87-4ef1-b103-63ebfa4e4b30++1486</key>
+		<string>svn://192.168.50.144/c4m/Game</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>src/cocos2d-x-3.2/build/cocos2d_tests.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>ab6ed03e-1b87-4ef1-b103-63ebfa4e4b30++1486</key>
+		<string>../../../../..</string>
+	</dict>
+	<key>IDESourceControlProjectRepositoryRootDictionary</key>
+	<dict>
+		<key>ab6ed03e-1b87-4ef1-b103-63ebfa4e4b30++1486</key>
+		<string>svn://192.168.50.144/c4m</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>svn://192.168.50.144/c4m/Game/src/cocos2d-x-3.2/build/cocos2d_tests.xcodeproj</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>ab6ed03e-1b87-4ef1-b103-63ebfa4e4b30++1486</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.subversion</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>ab6ed03e-1b87-4ef1-b103-63ebfa4e4b30++1486</string>
+			<key>IDESourceControlWCCName</key>
+			<string>svn</string>
+		</dict>
+	</array>
+</dict>
+</plist>
