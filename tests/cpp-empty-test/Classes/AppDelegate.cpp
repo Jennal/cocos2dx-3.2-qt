@@ -8,6 +8,7 @@
 #ifndef USE_GLFW
     #include "MainWindow.h"
 #endif
+#include "MainWindow.h"
 
 USING_NS_CC;
 using namespace std;
@@ -28,13 +29,13 @@ bool AppDelegate::applicationDidFinishLaunching() {
     if(!glview) {
 #ifdef USE_GLFW
         glview = GLView::create("Cpp Empty Test");
+        MainWindow* widget = new MainWindow;
+//        glview->setWidget(widget);
+        widget->show();
 #else
         glview = GLView::create(m_mainWindow.getGLWidget());
         m_mainWindow.show();
 #endif
-//        return true;
-//        director->resume();
-//        director->startAnimation();
         director->setOpenGLView(glview);
     }
 

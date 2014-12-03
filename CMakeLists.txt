@@ -93,6 +93,13 @@ if(ENV_QT)
   find_package(Qt5Gui)
   find_package(Qt5OpenGL)
 
+  set(LINK_LIB_QT
+    Qt5::Core
+    Qt5::Widgets
+    Qt5::Gui
+    Qt5::OpenGL
+  )
+
   # Add the include directories for the Qt 5 Widgets module to
   # the compile lines.
   include_directories(${Qt5Core_INCLUDE_DIRS})

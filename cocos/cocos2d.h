@@ -174,7 +174,7 @@ THE SOFTWARE.
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_QT5)
   #ifdef USE_GLFW
     #include "platform/qt/glfw/CCApplication.h"
-    #include "platform/desktop/CCGLView.h"
+    #include "platform/qt/glfw/CCGLView.h"
     #include "platform/qt/glfw/CCGL.h"
     #include "platform/qt/glfw/CCStdC.h"
   #else

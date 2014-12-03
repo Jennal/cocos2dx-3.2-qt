@@ -13,6 +13,9 @@ public:
 public:
     QWidget* getGLWidget(void);
 
+public slots:
+    void btnClicked();
+
 protected:
     void changeEvent(QEvent *e);
 };

@@ -42,10 +42,7 @@ add_executable(${APP_NAME}
 )
 
 if(ENV_QT)
-  target_link_libraries(${APP_NAME} Qt5::Core)
-  target_link_libraries(${APP_NAME} Qt5::Widgets)
-  target_link_libraries(${APP_NAME} Qt5::Gui)
-  target_link_libraries(${APP_NAME} Qt5::OpenGL)
+  target_link_libraries(${APP_NAME} ${LINK_LIB_QT})
 endif(ENV_QT)
 
 if(APPLE)

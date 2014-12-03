@@ -33,6 +33,7 @@ THE SOFTWARE.
 #include "base/CCDirector.h"
 #include "platform/CCFileUtils.h"
 #include "CCGLView.h"
+#include <QtCore/QThread>
 
 NS_CC_BEGIN
 
@@ -53,11 +54,14 @@ Application::Application(int argc, char** argv)
 : QApplication(argc, argv),
   _animationInterval(1.0f/60.0f*1000.0f)
 {
-    CC_UNUSED_PARAM(argc);
-    CC_UNUSED_PARAM(argv);
+//    CC_UNUSED_PARAM(argc);
+//    CC_UNUSED_PARAM(argv);
 
     CC_ASSERT(! sm_pSharedApplication);
     sm_pSharedApplication = this;
+
+    QObject::connect(&m_timer, SIGNAL(timeout()),
+                         this, SLOT(timerUpdate()));
 }
 
 Application::~Application()
@@ -74,6 +78,18 @@ int Application::run()
         return 0;
     }
 
+    // Retain glview to avoid glview being released in the while loop
+//    auto glview = Director::getInstance()->getOpenGLView();
+//    glview->retain();
+
+    CCLOG("Run: ThreadId: %p", QThread::currentThread());
+//    m_timer.start(_animationInterval);
+//    CCLOG("m_timer.start %f", _animationInterval);
+
+//    m_glThread.start();
+
+//    return this->exec();
+
     long lastTime = 0L;
     long curTime = 0L;
 
@@ -89,6 +105,7 @@ int Application::run()
 
         director->mainLoop();
         glview->pollEvents();
+//        this->processEvents();
 
         curTime = getCurrentMillSecond();
         if (curTime - lastTime < _animationInterval)
@@ -108,6 +125,9 @@ int Application::run()
         director = nullptr;
     }
     glview->release();
+
+    this->closeAllWindows();
+    this->quit();
     return -1;
 }
 
@@ -115,6 +135,7 @@ void Application::setAnimationInterval(double interval)
 {
     //TODO do something else
     _animationInterval = interval*1000.0f;
+    m_timer.start(_animationInterval);
 }
 
 void Application::setResourceRootPath(const std::string& rootResDir)
@@ -247,9 +268,41 @@ LanguageType Application::getCurrentLanguage()
     return ret;
 }
 
+static bool displayThreadId = false;
 void Application::timerUpdate()
 {
-    
+    if( ! displayThreadId)
+    {
+        CCLOG("Application::timerUpdate: ThreadId: %p", QThread::currentThread());
+        displayThreadId = true;
+    }
+
+    auto director = Director::getInstance();
+    auto glview = director->getOpenGLView();
+
+    if (!glview->windowShouldClose())
+    {
+        director->mainLoop();
+        //TODO: change glview poll events from qt
+//        glview->pollEvents();
+//        CCLOG("glvew is not closing");
+        return;
+    }
+
+
+    /* Only work on Desktop
+    *  Director::mainLoop is really one frame logic
+    *  when we want to close the window, we should call Director::end();
+    *  then call Director::mainLoop to do release of internal resources
+    */
+    if (glview->isOpenGLReady())
+    {
+        director->end();
+        director->mainLoop();
+        director = nullptr;
+    }
+    glview->release();
+    CCLOG("glvew released");
 }
 
 NS_CC_END
