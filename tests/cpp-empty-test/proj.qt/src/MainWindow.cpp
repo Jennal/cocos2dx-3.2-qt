@@ -1,5 +1,6 @@
 #include "MainWindow.h"
 #include <QMessageBox>
+#include "cocos2d.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
@@ -12,6 +13,7 @@ MainWindow::MainWindow(QWidget *parent) :
 void MainWindow::btnClicked()
 {
     QMessageBox::information(NULL, "Title", "Content", QMessageBox::Ok, QMessageBox::Ok);
+    UIMessageAdapter::getInstance()->push("Hello From MainWindow");
 }
 
 void MainWindow::changeEvent(QEvent *e)

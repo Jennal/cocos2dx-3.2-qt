@@ -5,9 +5,6 @@
 
 #include "HelloWorldScene.h"
 #include "AppMacros.h"
-#ifndef USE_GLFW
-    #include "MainWindow.h"
-#endif
 #include "MainWindow.h"
 
 USING_NS_CC;
@@ -27,15 +24,8 @@ bool AppDelegate::applicationDidFinishLaunching() {
     auto director = Director::getInstance();
     auto glview = director->getOpenGLView();
     if(!glview) {
-#ifdef USE_GLFW
         glview = GLView::create("Cpp Empty Test");
-        MainWindow* widget = new MainWindow;
-//        glview->setWidget(widget);
-        widget->show();
-#else
-        glview = GLView::create(m_mainWindow.getGLWidget());
         m_mainWindow.show();
-#endif
         director->setOpenGLView(glview);
     }
 

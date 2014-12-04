@@ -3,15 +3,16 @@ if(ENV_QT)
 if(USE_GLFW)
   qt5_wrap_cpp(QT_MOC_FILES
     platform/qt/glfw/CCApplication.h
+    platform/qt/glfw/UIMessageAdapter.h
   )
 
   set(COCOS_PLATFORM_SPECIFIC_SRC
     platform/qt/glfw/CCGLView.cpp
-    platform/qt/glfw/CCGLThread.cpp
     platform/qt/glfw/CCApplication.cpp
     platform/qt/glfw/CCCommon.cpp
     platform/qt/glfw/CCDevice.cpp
     platform/qt/CCFileUtilsQt.cpp
+    platform/qt/glfw/UIMessageAdapter.cpp
     # platform/qt/glfw/CCStdC.cpp
     ${QT_MOC_FILES}
   )

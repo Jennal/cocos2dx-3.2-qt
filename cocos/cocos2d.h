@@ -177,6 +177,7 @@ THE SOFTWARE.
     #include "platform/qt/glfw/CCGLView.h"
     #include "platform/qt/glfw/CCGL.h"
     #include "platform/qt/glfw/CCStdC.h"
+    #include "platform/qt/glfw/UIMessageAdapter.h"
   #else
     #include "platform/qt/CCApplication.h"
     #include "platform/qt/CCGLView.h"

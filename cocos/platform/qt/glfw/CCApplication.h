@@ -33,8 +33,6 @@ THE SOFTWARE.
 #include "platform/CCApplicationProtocol.h"
 #include <string>
 #include <QtWidgets/QApplication>
-#include <QtCore/QTimer>
-#include "CCGLThread.h"
 
 NS_CC_BEGIN
 class Rect;
@@ -99,18 +97,14 @@ public:
      @brief Get target platform
      */
     virtual Platform getTargetPlatform();
-
-public slots:
-    void timerUpdate();
+protected:
+    void pollUIEvents();
 
 protected:
     long       _animationInterval;  //micro second
     std::string _resourceRootPath;
     
 	static Application * sm_pSharedApplication;
-
-    QTimer m_timer;
-    GLThread m_glThread;
 };
 
 NS_CC_END

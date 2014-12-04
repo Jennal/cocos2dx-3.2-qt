@@ -34,6 +34,14 @@ THE SOFTWARE.
 #include "platform/CCFileUtils.h"
 #include "CCGLView.h"
 #include <QtCore/QThread>
+#include "UIMessageAdapter.h"
+
+/* Test */
+#define TEST_UI_MESSGAE
+#ifdef TEST_UI_MESSGAE
+#include "2d/CCLabelTTF.h"
+#include "2d/CCScene.h"
+#endif /* TEST_UI_MESSGAE */
 
 NS_CC_BEGIN
 
@@ -59,9 +67,6 @@ Application::Application(int argc, char** argv)
 
     CC_ASSERT(! sm_pSharedApplication);
     sm_pSharedApplication = this;
-
-    QObject::connect(&m_timer, SIGNAL(timeout()),
-                         this, SLOT(timerUpdate()));
 }
 
 Application::~Application()
@@ -78,17 +83,7 @@ int Application::run()
         return 0;
     }
 
-    // Retain glview to avoid glview being released in the while loop
-//    auto glview = Director::getInstance()->getOpenGLView();
-//    glview->retain();
-
-    CCLOG("Run: ThreadId: %p", QThread::currentThread());
-//    m_timer.start(_animationInterval);
-//    CCLOG("m_timer.start %f", _animationInterval);
-
-//    m_glThread.start();
-
-//    return this->exec();
+//    CCLOG("Run: ThreadId: %p", QThread::currentThread());
 
     long lastTime = 0L;
     long curTime = 0L;
@@ -105,6 +100,7 @@ int Application::run()
 
         director->mainLoop();
         glview->pollEvents();
+        this->pollUIEvents();
 //        this->processEvents();
 
         curTime = getCurrentMillSecond();
@@ -135,7 +131,6 @@ void Application::setAnimationInterval(double interval)
 {
     //TODO do something else
     _animationInterval = interval*1000.0f;
-    m_timer.start(_animationInterval);
 }
 
 void Application::setResourceRootPath(const std::string& rootResDir)
@@ -268,41 +263,35 @@ LanguageType Application::getCurrentLanguage()
     return ret;
 }
 
-static bool displayThreadId = false;
-void Application::timerUpdate()
+void Application::pollUIEvents()
 {
-    if( ! displayThreadId)
-    {
-        CCLOG("Application::timerUpdate: ThreadId: %p", QThread::currentThread());
-        displayThreadId = true;
-    }
+    bool hasMessage = false;
+    auto message = UIMessageAdapter::getInstance()->pop(hasMessage);
+    auto scene = Director::getInstance()->getRunningScene();
 
-    auto director = Director::getInstance();
-    auto glview = director->getOpenGLView();
+    if(!hasMessage) return;
 
-    if (!glview->windowShouldClose())
-    {
-        director->mainLoop();
-        //TODO: change glview poll events from qt
-//        glview->pollEvents();
-//        CCLOG("glvew is not closing");
-        return;
-    }
+#ifdef TEST_UI_MESSGAE
+    CCLOG("UIEvents: %s", message.c_str());
 
+    auto visibleSize = Director::getInstance()->getVisibleSize();
+    auto origin = Director::getInstance()->getVisibleOrigin();
 
-    /* Only work on Desktop
-    *  Director::mainLoop is really one frame logic
-    *  when we want to close the window, we should call Director::end();
-    *  then call Director::mainLoop to do release of internal resources
-    */
-    if (glview->isOpenGLReady())
-    {
-        director->end();
-        director->mainLoop();
-        director = nullptr;
-    }
-    glview->release();
-    CCLOG("glvew released");
+    /////////////////////////////
+    // 3. add your codes below...
+
+    // add a label shows "Hello World"
+    // create and initialize a label
+
+    auto label = LabelTTF::create(message.c_str(), "Arial", 24.0f);
+
+    // position the label on the center of the screen
+    label->setPosition(Vec2(origin.x + visibleSize.width/2,
+                            origin.y + visibleSize.height/2));
+
+    // add the label as a child to this layer
+    scene->addChild(label, 1);
+#endif /* TEST_UI_MESSGAE */
 }
 
 NS_CC_END
