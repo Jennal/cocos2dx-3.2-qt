@@ -37,15 +37,16 @@ if(WIN32 OR APPLE)
 option(USE_CHIPMUNK "Use chipmunk for physics library" ON)
 option(USE_BOX2D "Use box2d for physics library" OFF)
 option(DEBUG_MODE "Debug or release?" ON)
-option(BUILD_LIBS_LUA "Build lua libraries" OFF)
+option(BUILD_LIBS_LUA "Build lua libraries" ON)
 option(BUILD_EXTENSIONS "Build extension library" ON)
-option(BUILD_EDITOR_SPINE "Build editor support for spine" ON)
+option(BUILD_EDITOR_SPINE "Build editor support for spine" OFF)
 option(BUILD_EDITOR_COCOSTUDIO "Build editor support for cocostudio" ON)
 option(BUILD_EDITOR_COCOSBUILDER "Build editor support for cocosbuilder" ON)
-option(BUILD_AUDIO "Build audio" ON)
-option(ENV_QT "Qt environment" OFF)
+option(BUILD_AUDIO "Build audio" OFF)
+option(ENV_QT "Qt environment" ON)
 
-option(BUILD_CppTests "Only build TestCpp sample" ON)
+option(BUILD_CppEmptyTest "Only build EmptyCpp sample" ON)
+option(BUILD_CppTests "Only build TestCpp sample" OFF)
 option(BUILD_LuaTests "Only build TestLua sample" OFF)
 
 else()#temp
@@ -61,6 +62,7 @@ option(BUILD_EDITOR_COCOSBUILDER "Build editor support for cocosbuilder" ON)
 option(BUILD_AUDIO "Build audio" ON)
 option(ENV_QT "Qt environment" OFF)
 
+option(BUILD_CppEmptyTest "Only build EmptyCpp sample" ON)
 option(BUILD_CppTests "Only build TestCpp sample" ON)
 option(BUILD_LuaTests "Only build TestLua sample" ON)
 endif()#temp
@@ -119,6 +121,10 @@ if(ENV_QT)
 #  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${Qt5Gui_EXECUTABLE_COMPILE_FLAGS}")
 
 endif(ENV_QT)
+
+if(NOT BUILD_AUDIO)
+  add_definitions(-DNO_AUDIO)
+endif()
 
 if(DEBUG_MODE)
   set(CMAKE_BUILD_TYPE DEBUG)
@@ -342,6 +348,8 @@ endif(BUILD_EXTENSIONS)
 if(BUILD_EDITOR_SPINE)
 # spine
 add_subdirectory(cocos/editor-support/spine)
+else()
+add_definitions(-DNO_SPINE)
 endif(BUILD_EDITOR_SPINE)
 
 if(BUILD_EDITOR_COCOSBUILDER)
@@ -371,7 +379,9 @@ endif(BUILD_LIBS_LUA)
 
 # build tests 
 
+if(BUILD_CppEmptyTest)
 add_subdirectory(tests/cpp-empty-test)
+endif(BUILD_CppEmptyTest)
 
 if(BUILD_CppTests)
 add_subdirectory(tests/cpp-tests)

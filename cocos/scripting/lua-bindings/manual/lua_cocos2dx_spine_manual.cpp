@@ -27,11 +27,22 @@
 #include "LuaBasicConversions.h"
 #include "LuaScriptHandlerMgr.h"
 #include "CCLuaValue.h"
+
+#ifndef NO_SPINE
 #include "spine.h"
 #include "spine-cocos2dx.h"
 #include "LuaSkeletonAnimation.h"
 
 using namespace spine;
+#endif /* NO_SPINE */
+
+static int lua_cocos2dx_spine_diabled(lua_State* tolua_S)
+{
+    CC_UNUSED_PARAM(tolua_S);
+    return 0;
+}
+
+#ifndef NO_SPINE
 
 // setBlendFunc
 template<class T>
@@ -435,6 +446,7 @@ tolua_lerror:
     
     return 0;
 }
+#endif /* NO_SPINE */
 
 static void extendCCSkeletonAnimation(lua_State* L)
 {
@@ -442,6 +454,7 @@ static void extendCCSkeletonAnimation(lua_State* L)
     lua_rawget(L, LUA_REGISTRYINDEX);
     if (lua_istable(L,-1))
     {
+#ifndef NO_SPINE
         tolua_function(L, "create", lua_cocos2dx_CCSkeletonAnimation_createWithFile);
         tolua_function(L, "registerSpineEventHandler", tolua_Cocos2d_CCSkeletonAnimation_registerSpineEventHandler00);
         tolua_function(L, "unregisterSpineEventHandler", tolua_Cocos2d_CCSkeletonAnimation_unregisterSpineEventHandler00);
@@ -452,6 +465,18 @@ static void extendCCSkeletonAnimation(lua_State* L)
         tolua_function(L, "setPremultipliedAlpha", tolua_Cocos2d_CCSkeletonAnimation_setPremultipliedAlpha00);
         tolua_function(L, "addAnimation", lua_cocos2dx_spine_SkeletonAnimation_addAnimation);
         tolua_function(L, "setAnimation", lua_cocos2dx_spine_SkeletonAnimation_setAnimation);
+#else /* NO_SPINE */
+        tolua_function(L, "create",lua_cocos2dx_spine_diabled);
+        tolua_function(L, "registerSpineEventHandler",lua_cocos2dx_spine_diabled);
+        tolua_function(L, "unregisterSpineEventHandler",lua_cocos2dx_spine_diabled);
+        tolua_function(L, "setBlendFunc",lua_cocos2dx_spine_diabled);
+        tolua_function(L, "setTimeScale",lua_cocos2dx_spine_diabled);
+        tolua_function(L, "setDebugSlots",lua_cocos2dx_spine_diabled);
+        tolua_function(L, "setDebugBones",lua_cocos2dx_spine_diabled);
+        tolua_function(L, "setPremultipliedAlpha",lua_cocos2dx_spine_diabled);
+        tolua_function(L, "addAnimation",lua_cocos2dx_spine_diabled);
+        tolua_function(L, "setAnimation",lua_cocos2dx_spine_diabled);
+#endif /* NO_SPINE */
     }
     lua_pop(L, 1);
 }

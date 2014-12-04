@@ -1,14 +1,19 @@
 #include "MainWindow.h"
 #include <QMessageBox>
+#include <QtEvents>
 #include "cocos2d.h"
+
+#define GLFW_WIDTH 961
+
+USING_NS_CC;
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
 {
     setupUi(this);
 
-    QObject::connect(pushButton, SIGNAL(clicked()), this, SLOT(btnClicked()));
-    QObject::connect(UIMessageAdapter::getInstance(), SIGNAL(testSignal(const char*)), this, SLOT(recvCocos2dxSignal(const char*)));
+    QObject::connect(UIMessageAdapter::getInstance(), SIGNAL(cocos2dxWindowPosChanged(int, int)),
+                     this, SLOT(onCocos2dxWindowMoved(int, int)));
 }
 
 void MainWindow::btnClicked()
@@ -17,9 +22,14 @@ void MainWindow::btnClicked()
     UIMessageAdapter::getInstance()->push("Hello From MainWindow");
 }
 
-void MainWindow::recvCocos2dxSignal(const char* msg)
+void MainWindow::onCocos2dxWindowMoved(int x, int y)
 {
-    pushButton->setText(msg);
+    int mx, my, w, h;
+    this->geometry().getRect(&mx, &my, &w, &h);
+
+    x += GLFW_WIDTH;
+    if(mx == x && my == y) return;
+    this->setGeometry(x, y, w, h);
 }
 
 void MainWindow::changeEvent(QEvent *e)
@@ -34,8 +44,25 @@ void MainWindow::changeEvent(QEvent *e)
     }
 }
 
-QWidget*
-MainWindow::getGLWidget()
+void MainWindow::closeEvent(QCloseEvent *e)
 {
-    return mCocos2dWidget;
+    Director::getInstance()->end();
+    e->accept();
+}
+
+void MainWindow::showEvent(QShowEvent *e)
+{
+    QMainWindow::showEvent(e);
+
+    int x, y;
+    Director::getInstance()->getOpenGLView()->getWindowPos(&x, &y);
+    this->onCocos2dxWindowMoved(x, y);
+}
+
+void MainWindow::moveEvent(QMoveEvent *e)
+{
+    QMainWindow::moveEvent(e);
+
+//    auto pos = e->pos();
+//    Director::getInstance()->getOpenGLView()->setWindowPos(pos.x() - GLFW_WIDTH, pos.y());
 }

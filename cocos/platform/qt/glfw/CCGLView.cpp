@@ -33,18 +33,7 @@ THE SOFTWARE.
 #include "base/ccUtils.h"
 
 #include <unordered_map>
-
-#include <QtGui/QOpenGLContext>
-
-#ifdef Q_OS_WIN32
-    #define GLFW_EXPOSE_NATIVE_WIN32
-    #define GLFW_EXPOSE_NATIVE_WGL
-#elif defined(Q_OS_OSX)
-    #define GLFW_EXPOSE_NATIVE_COCOA
-    #define GLFW_EXPOSE_NATIVE_NSGL
-#endif
-
-#include <glfw3native.h>
+#include "UIMessageAdapter.h"
 
 NS_CC_BEGIN
 
@@ -354,8 +343,7 @@ bool GLView::initWithRect(const std::string& viewName, Rect rect, float frameZoo
                                    _viewName.c_str(),
                                    _monitor,
                                    nullptr);
-//    glfwMakeContextCurrent(_mainWindow);
-    this->makeCurrent();
+    glfwMakeContextCurrent(_mainWindow);
 
     glfwSetMouseButtonCallback(_mainWindow, GLFWEventHandler::onGLFWMouseCallBack);
     glfwSetCursorPosCallback(_mainWindow, GLFWEventHandler::onGLFWMouseMoveCallBack);
@@ -674,6 +662,7 @@ void GLView::onGLFWCharCallback(GLFWwindow *window, unsigned int character)
 void GLView::onGLFWWindowPosCallback(GLFWwindow *windows, int x, int y)
 {
     Director::getInstance()->setViewport();
+    emit UIMessageAdapter::getInstance()->cocos2dxWindowPosChanged(x, y);
 }
 
 void GLView::onGLFWframebuffersize(GLFWwindow* window, int w, int h)
@@ -820,34 +809,14 @@ bool GLView::initGlew()
     return true;
 }
 
-void GLView::makeCurrent()
+void GLView::getWindowPos(int* x, int* y)
 {
-    glfwMakeContextCurrent(_mainWindow);
+    glfwGetWindowPos(_mainWindow, x, y);
 }
 
-void GLView::doneCurrent()
+void GLView::setWindowPos(int x, int y)
 {
-    glfwMakeContextCurrent(nullptr);
-}
-
-void GLView::setWidget(QOpenGLWidget* widget)
-{
-    QOpenGLContext* context = widget->context();
-
-#ifdef GLFW_EXPOSE_NATIVE_WGL
-    CCLOG("GLFW_EXPOSE_NATIVE_WGL: %p", glfwGetWGLContext(_mainWindow));
-    context->setNativeHandle(QVariant::fromValue<HGLRC>(glfwGetWGLContext(_mainWindow)));
-#endif
-#ifdef GLFW_EXPOSE_NATIVE_NSGL
-    CCLOG("GLFW_EXPOSE_NATIVE_NSGL: %p", glfwGetNSGLContext(_mainWindow));
-    context->setNativeHandle(QVariant::fromValue<id>(glfwGetNSGLContext(_mainWindow)));
-#endif
-#ifdef GLFW_EXPOSE_NATIVE_GLX
-    CCLOG("GLFW_EXPOSE_NATIVE_GLX: %p", glfwGetGLXContext(_mainWindow));
-#endif
-#ifdef GLFW_EXPOSE_NATIVE_EGL
-    CCLOG("GLFW_EXPOSE_NATIVE_EGL: %p", glfwGetEGLContext(_mainWindow));
-#endif
+    glfwSetWindowPos(_mainWindow, x, y);
 }
 
 NS_CC_END // end of namespace cocos2d;

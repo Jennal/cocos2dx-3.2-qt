@@ -25,8 +25,8 @@ bool AppDelegate::applicationDidFinishLaunching() {
     auto glview = director->getOpenGLView();
     if(!glview) {
         glview = GLView::create("Cpp Empty Test");
-        m_mainWindow.show();
         director->setOpenGLView(glview);
+        m_mainWindow.show();
     }
 
     // Set the design resolution

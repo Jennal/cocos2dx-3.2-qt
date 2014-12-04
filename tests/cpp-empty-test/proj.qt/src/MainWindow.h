@@ -11,14 +11,16 @@ public:
     explicit MainWindow(QWidget *parent = 0);
 
 public:
-    QWidget* getGLWidget(void);
 
 public slots:
     void btnClicked();
-    void recvCocos2dxSignal(const char*);
+    void onCocos2dxWindowMoved(int x, int y);
 
 protected:
     void changeEvent(QEvent *e);
+    virtual void closeEvent(QCloseEvent *);
+    virtual void showEvent(QShowEvent *);
+    virtual void moveEvent(QMoveEvent *);
 };
 
 #endif // MAINWINDOW_H

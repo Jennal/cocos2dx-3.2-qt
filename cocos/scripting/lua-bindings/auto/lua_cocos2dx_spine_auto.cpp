@@ -1,9 +1,18 @@
 #include "lua_cocos2dx_spine_auto.hpp"
-#include "spine-cocos2dx.h"
 #include "tolua_fix.h"
 #include "LuaBasicConversions.h"
 
+#ifndef NO_SPINE
+#include "spine-cocos2dx.h"
+#endif
 
+static int lua_cocos2dx_spine_diabled(lua_State* tolua_S)
+{
+    CC_UNUSED_PARAM(tolua_S);
+    return 0;
+}
+
+#ifndef NO_SPINE
 
 int lua_cocos2dx_spine_Skeleton_setToSetupPose(lua_State* tolua_S)
 {
@@ -325,6 +334,7 @@ static int lua_cocos2dx_spine_Skeleton_finalize(lua_State* tolua_S)
     printf("luabindings: finalizing LUA object (Skeleton)");
     return 0;
 }
+#endif /* NO_SPINE */
 
 int lua_register_cocos2dx_spine_Skeleton(lua_State* tolua_S)
 {
@@ -332,6 +342,7 @@ int lua_register_cocos2dx_spine_Skeleton(lua_State* tolua_S)
     tolua_cclass(tolua_S,"Skeleton","sp.Skeleton","cc.Node",nullptr);
 
     tolua_beginmodule(tolua_S,"Skeleton");
+#ifndef NO_SPINE
         tolua_function(tolua_S,"setToSetupPose",lua_cocos2dx_spine_Skeleton_setToSetupPose);
         tolua_function(tolua_S,"setBlendFunc",lua_cocos2dx_spine_Skeleton_setBlendFunc);
         tolua_function(tolua_S,"onDraw",lua_cocos2dx_spine_Skeleton_onDraw);
@@ -339,12 +350,27 @@ int lua_register_cocos2dx_spine_Skeleton(lua_State* tolua_S)
         tolua_function(tolua_S,"getBlendFunc",lua_cocos2dx_spine_Skeleton_getBlendFunc);
         tolua_function(tolua_S,"setSkin",lua_cocos2dx_spine_Skeleton_setSkin);
         tolua_function(tolua_S,"setBonesToSetupPose",lua_cocos2dx_spine_Skeleton_setBonesToSetupPose);
+#else /* NO_SPINE */
+        tolua_function(tolua_S,"setToSetupPose",lua_cocos2dx_spine_diabled);
+        tolua_function(tolua_S,"setBlendFunc",lua_cocos2dx_spine_diabled);
+        tolua_function(tolua_S,"onDraw",lua_cocos2dx_spine_diabled);
+        tolua_function(tolua_S,"setSlotsToSetupPose",lua_cocos2dx_spine_diabled);
+        tolua_function(tolua_S,"getBlendFunc",lua_cocos2dx_spine_diabled);
+        tolua_function(tolua_S,"setSkin",lua_cocos2dx_spine_diabled);
+        tolua_function(tolua_S,"setBonesToSetupPose",lua_cocos2dx_spine_diabled);
+#endif /* NO_SPINE */
     tolua_endmodule(tolua_S);
+#ifndef NO_SPINE
     std::string typeName = typeid(spine::Skeleton).name();
     g_luaType[typeName] = "sp.Skeleton";
+#else /* NO_SPINE */
+    g_luaType["spine::Skeleton"] = "sp.Skeleton";
+#endif /* NO_SPINE */
     g_typeCast["Skeleton"] = "sp.Skeleton";
     return 1;
 }
+
+#ifndef NO_SPINE
 
 int lua_cocos2dx_spine_SkeletonAnimation_setMix(lua_State* tolua_S)
 {
@@ -499,6 +525,7 @@ static int lua_cocos2dx_spine_SkeletonAnimation_finalize(lua_State* tolua_S)
     printf("luabindings: finalizing LUA object (SkeletonAnimation)");
     return 0;
 }
+#endif /* NO_SPINE */
 
 int lua_register_cocos2dx_spine_SkeletonAnimation(lua_State* tolua_S)
 {
@@ -506,12 +533,22 @@ int lua_register_cocos2dx_spine_SkeletonAnimation(lua_State* tolua_S)
     tolua_cclass(tolua_S,"SkeletonAnimation","sp.SkeletonAnimation","sp.Skeleton",nullptr);
 
     tolua_beginmodule(tolua_S,"SkeletonAnimation");
+#ifndef NO_SPINE
         tolua_function(tolua_S,"setMix",lua_cocos2dx_spine_SkeletonAnimation_setMix);
         tolua_function(tolua_S,"clearTracks",lua_cocos2dx_spine_SkeletonAnimation_clearTracks);
         tolua_function(tolua_S,"clearTrack",lua_cocos2dx_spine_SkeletonAnimation_clearTrack);
+#else /* NO_SPINE */
+        tolua_function(tolua_S,"setMix",lua_cocos2dx_spine_diabled);
+        tolua_function(tolua_S,"clearTracks",lua_cocos2dx_spine_diabled);
+        tolua_function(tolua_S,"clearTrack",lua_cocos2dx_spine_diabled);
+#endif /* NO_SPINE */
     tolua_endmodule(tolua_S);
+#ifndef NO_SPINE
     std::string typeName = typeid(spine::SkeletonAnimation).name();
     g_luaType[typeName] = "sp.SkeletonAnimation";
+#else /* NO_SPINE */
+    g_luaType["spine::SkeletonAnimation"] = "sp.SkeletonAnimation";
+#endif /* NO_SPINE */
     g_typeCast["SkeletonAnimation"] = "sp.SkeletonAnimation";
     return 1;
 }

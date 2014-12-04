@@ -18,7 +18,7 @@ public:
     const std::string pop(bool &ok);
 
 signals:
-    void testSignal(const char*);
+    void cocos2dxWindowPosChanged(int x, int y);
 
 private:
     QMutex m_mutex;

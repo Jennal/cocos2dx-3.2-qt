@@ -1,6 +1,8 @@
 #include "lua_cocos2dx_auto.hpp"
 #include "cocos2d.h"
+#ifndef NO_AUDIO
 #include "SimpleAudioEngine.h"
+#endif
 #include "CCProtectedNode.h"
 #include "CCAnimation3D.h"
 #include "CCAnimate3D.h"
@@ -63272,6 +63274,8 @@ int lua_register_cocos2dx_Animate3D(lua_State* tolua_S)
     return 1;
 }
 
+#ifndef NO_AUDIO
+
 int lua_cocos2dx_SimpleAudioEngine_preloadBackgroundMusic(lua_State* tolua_S)
 {
     int argc = 0;
@@ -64374,12 +64378,23 @@ static int lua_cocos2dx_SimpleAudioEngine_finalize(lua_State* tolua_S)
     return 0;
 }
 
+#else /* NO_AUDIO */
+
+static int lua_cocos2dx_SimpleAudioEngine_diabled(lua_State* tolua_S)
+{
+    CC_UNUSED_PARAM(tolua_S);
+    return 0;
+}
+
+#endif /* NO_AUDIO */
+
 int lua_register_cocos2dx_SimpleAudioEngine(lua_State* tolua_S)
 {
     tolua_usertype(tolua_S,"cc.SimpleAudioEngine");
     tolua_cclass(tolua_S,"SimpleAudioEngine","cc.SimpleAudioEngine","",nullptr);
 
     tolua_beginmodule(tolua_S,"SimpleAudioEngine");
+#ifndef NO_AUDIO
         tolua_function(tolua_S,"preloadMusic",lua_cocos2dx_SimpleAudioEngine_preloadBackgroundMusic);
         tolua_function(tolua_S,"stopMusic",lua_cocos2dx_SimpleAudioEngine_stopBackgroundMusic);
         tolua_function(tolua_S,"stopAllEffects",lua_cocos2dx_SimpleAudioEngine_stopAllEffects);
@@ -64403,6 +64418,31 @@ int lua_register_cocos2dx_SimpleAudioEngine(lua_State* tolua_S)
         tolua_function(tolua_S,"resumeEffect",lua_cocos2dx_SimpleAudioEngine_resumeEffect);
         tolua_function(tolua_S,"destroyInstance", lua_cocos2dx_SimpleAudioEngine_end);
         tolua_function(tolua_S,"getInstance", lua_cocos2dx_SimpleAudioEngine_getInstance);
+#else /* NO_AUDIO */
+        tolua_function(tolua_S,"preloadMusic",lua_cocos2dx_SimpleAudioEngine_diabled);
+        tolua_function(tolua_S,"stopMusic",lua_cocos2dx_SimpleAudioEngine_diabled);
+        tolua_function(tolua_S,"stopAllEffects",lua_cocos2dx_SimpleAudioEngine_diabled);
+        tolua_function(tolua_S,"getMusicVolume",lua_cocos2dx_SimpleAudioEngine_diabled);
+        tolua_function(tolua_S,"resumeMusic",lua_cocos2dx_SimpleAudioEngine_diabled);
+        tolua_function(tolua_S,"setMusicVolume",lua_cocos2dx_SimpleAudioEngine_diabled);
+        tolua_function(tolua_S,"preloadEffect",lua_cocos2dx_SimpleAudioEngine_diabled);
+        tolua_function(tolua_S,"isMusicPlaying",lua_cocos2dx_SimpleAudioEngine_diabled);
+        tolua_function(tolua_S,"getEffectsVolume",lua_cocos2dx_SimpleAudioEngine_diabled);
+        tolua_function(tolua_S,"willPlayMusic",lua_cocos2dx_SimpleAudioEngine_diabled);
+        tolua_function(tolua_S,"pauseEffect",lua_cocos2dx_SimpleAudioEngine_diabled);
+        tolua_function(tolua_S,"playEffect",lua_cocos2dx_SimpleAudioEngine_diabled);
+        tolua_function(tolua_S,"rewindMusic",lua_cocos2dx_SimpleAudioEngine_diabled);
+        tolua_function(tolua_S,"playMusic",lua_cocos2dx_SimpleAudioEngine_diabled);
+        tolua_function(tolua_S,"resumeAllEffects",lua_cocos2dx_SimpleAudioEngine_diabled);
+        tolua_function(tolua_S,"setEffectsVolume",lua_cocos2dx_SimpleAudioEngine_diabled);
+        tolua_function(tolua_S,"stopEffect",lua_cocos2dx_SimpleAudioEngine_diabled);
+        tolua_function(tolua_S,"pauseMusic",lua_cocos2dx_SimpleAudioEngine_diabled);
+        tolua_function(tolua_S,"pauseAllEffects",lua_cocos2dx_SimpleAudioEngine_diabled);
+        tolua_function(tolua_S,"unloadEffect",lua_cocos2dx_SimpleAudioEngine_diabled);
+        tolua_function(tolua_S,"resumeEffect",lua_cocos2dx_SimpleAudioEngine_diabled);
+        tolua_function(tolua_S,"destroyInstance",lua_cocos2dx_SimpleAudioEngine_diabled);
+        tolua_function(tolua_S,"getInstance",lua_cocos2dx_SimpleAudioEngine_diabled);
+#endif
     tolua_endmodule(tolua_S);
     std::string typeName = typeid(CocosDenshion::SimpleAudioEngine).name();
     g_luaType[typeName] = "cc.SimpleAudioEngine";

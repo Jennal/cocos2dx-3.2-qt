@@ -31,6 +31,7 @@ set(LUABINDING_SRC
 include_directories(
   auto
   manual
+  ../../editor-support
   ../../editor-support/cocosbuilder
   ../../editor-support/cocostudio
   ../../editor-support/spine

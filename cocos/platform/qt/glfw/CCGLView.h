@@ -59,6 +59,8 @@ public:
     bool windowShouldClose();
     void pollEvents();
     GLFWwindow* getWindow() const { return _mainWindow; }
+    void getWindowPos(int*, int*);
+    void setWindowPos(int, int);
 
     /* override functions */
     virtual bool isOpenGLReady() override;
@@ -81,13 +83,6 @@ public:
     
     /** Get retina factor */
     int getRetinaFactor() const { return _retinaFactor; }
-
-    void makeCurrent();
-    void doneCurrent();
-
-    /* Qt methods */
-    void setWidget(QOpenGLWidget*);
-
 protected:
     GLView();
     virtual ~GLView();

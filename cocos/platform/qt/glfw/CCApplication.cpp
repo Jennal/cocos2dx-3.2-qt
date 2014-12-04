@@ -273,7 +273,6 @@ void Application::pollUIEvents()
 
 #ifdef TEST_UI_MESSGAE
     CCLOG("UIEvents: %s", message.c_str());
-    emit UIMessageAdapter::getInstance()->testSignal("recved");
 
     auto visibleSize = Director::getInstance()->getVisibleSize();
     auto origin = Director::getInstance()->getVisibleOrigin();
