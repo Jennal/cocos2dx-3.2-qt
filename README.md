@@ -8,6 +8,17 @@ This is qt port base on
 - Qt 5.4
 - CMake 3.0
 
+Build
+---------------
+
+```
+$ mkdir cmake-build
+$ cd cmake-build
+$ cmake -DENV_QT=ON -DBUILD_AUDIO=OFF -DBUILD_EDITOR_SPINE=OFF -DBUILD_CppTests=OFF -DBUILD_LuaTests=OFF ..
+$ make
+# now execuable program will be in cmake-build/bin folder
+```
+
 <img src="http://www.cocos2d-x.org/attachments/801/cocos2dx_portrait.png" width=200>
 
 
