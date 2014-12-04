@@ -17,6 +17,9 @@ public:
     void push(const char*);
     const std::string pop(bool &ok);
 
+signals:
+    void testSignal(const char*);
+
 private:
     QMutex m_mutex;
     QQueue<std::string> m_data;

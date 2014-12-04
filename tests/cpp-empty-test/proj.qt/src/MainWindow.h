@@ -15,6 +15,7 @@ public:
 
 public slots:
     void btnClicked();
+    void recvCocos2dxSignal(const char*);
 
 protected:
     void changeEvent(QEvent *e);
