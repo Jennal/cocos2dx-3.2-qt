@@ -19,6 +19,10 @@ $ make
 # now execuable program will be in cmake-build/bin folder
 ```
 
+SnapShot
+---------------
+<img src="https://raw.githubusercontent.com/Jennal/cocos2dx-3.2-qt/master/snapshots/1.jpg" width="480">
+
 <img src="http://www.cocos2d-x.org/attachments/801/cocos2dx_portrait.png" width=200>
 
 
