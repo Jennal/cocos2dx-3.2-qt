@@ -9,6 +9,7 @@ class MainWindow : public QMainWindow, private Ui::MainWindow
 
 public:
     explicit MainWindow(QWidget *parent = 0);
+    ~MainWindow();
 
 public:
 
@@ -21,6 +22,8 @@ protected:
     virtual void closeEvent(QCloseEvent *);
     virtual void showEvent(QShowEvent *);
     virtual void moveEvent(QMoveEvent *);
+
+    void initTabs();
 };
 
 #endif // MAINWINDOW_H

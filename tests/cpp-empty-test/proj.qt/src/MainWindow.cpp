@@ -2,6 +2,7 @@
 #include <QMessageBox>
 #include <QtEvents>
 #include "cocos2d.h"
+#include "TabPageWidget.h"
 
 #define GLFW_WIDTH 961
 
@@ -11,9 +12,20 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
 {
     setupUi(this);
+    initTabs();
 
     QObject::connect(UIMessageAdapter::getInstance(), SIGNAL(cocos2dxWindowPosChanged(int, int)),
                      this, SLOT(onCocos2dxWindowMoved(int, int)));
+}
+
+MainWindow::~MainWindow()
+{
+
+}
+
+void MainWindow::initTabs()
+{
+    tabWidget->addTab(new TabPageWidget, tr("Test"));
 }
 
 void MainWindow::btnClicked()

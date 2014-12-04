@@ -8,6 +8,7 @@ QT5_WRAP_UI(QT_UI_FILES
 
 qt5_wrap_cpp(QT_MOC_FILES
   proj.qt/src/MainWindow.h
+  proj.qt/src/TabPageWidget.h
 )
 
 set(PLATFORM_SRC
@@ -15,6 +16,7 @@ set(PLATFORM_SRC
   ${QT_MOC_FILES}
   ${QT_RES_FILES}
   proj.qt/src/MainWindow.cpp
+  proj.qt/src/TabPageWidget.cpp
   proj.qt/main.cpp
 )
 
