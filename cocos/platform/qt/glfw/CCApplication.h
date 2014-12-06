@@ -46,6 +46,10 @@ public:
      */
 	Application(int argc, char** argv);
     /**
+     * @js ctor
+     */
+    Application();
+    /**
      * @js NA
      * @lua NA
      */

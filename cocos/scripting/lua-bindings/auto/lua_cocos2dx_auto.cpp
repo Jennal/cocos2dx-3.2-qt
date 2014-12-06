@@ -64444,8 +64444,12 @@ int lua_register_cocos2dx_SimpleAudioEngine(lua_State* tolua_S)
         tolua_function(tolua_S,"getInstance",lua_cocos2dx_SimpleAudioEngine_diabled);
 #endif
     tolua_endmodule(tolua_S);
+#ifndef NO_AUDIO
     std::string typeName = typeid(CocosDenshion::SimpleAudioEngine).name();
     g_luaType[typeName] = "cc.SimpleAudioEngine";
+#else /* NO_AUDIO */
+    g_luaType["CocosDenshion::SimpleAudioEngine"] = "cc.SimpleAudioEngine";
+#endif /* NO_AUDIO */
     g_typeCast["SimpleAudioEngine"] = "cc.SimpleAudioEngine";
     return 1;
 }

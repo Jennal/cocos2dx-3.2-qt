@@ -62,11 +62,19 @@ Application::Application(int argc, char** argv)
 : QApplication(argc, argv),
   _animationInterval(1.0f/60.0f*1000.0f)
 {
-//    CC_UNUSED_PARAM(argc);
-//    CC_UNUSED_PARAM(argv);
+    CCLOG("Application::Application(int argc, char** argv)");
+    
+    CC_UNUSED_PARAM(argc);
+    CC_UNUSED_PARAM(argv);
 
     CC_ASSERT(! sm_pSharedApplication);
     sm_pSharedApplication = this;
+}
+
+Application::Application()
+ : Application(0, nullptr)
+{
+    CCLOG("Application::Application()");
 }
 
 Application::~Application()

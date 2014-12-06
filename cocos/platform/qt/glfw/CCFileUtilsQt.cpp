@@ -1,6 +1,7 @@
 /****************************************************************************
-Copyright (c) 2011      Laschweinski
+Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2013-2014 Chukong Technologies Inc.
+Copyright (c) 2013-2014 Zhu Delun (delun.zhu@gmail.com)
 
 http://www.cocos2d-x.org
 
@@ -23,18 +24,17 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "base/CCPlatformConfig.h"
-#if CC_TARGET_PLATFORM == CC_PLATFORM_QT5
-
 #include "CCFileUtilsQt.h"
 #include "platform/CCCommon.h"
-#include "base/ccMacros.h"
-#include "CCApplication.h"
-#include "deprecated/CCString.h"
-#include <unistd.h>
-#include <sys/stat.h>
+
+// Qt
+#include <QtCore/QObject>
+#include <QtCore/QDir>
+#include <QtWidgets/QApplication>
+#include <QtCore/QFileInfo>
+
+#include <execinfo.h>
 #include <stdio.h>
-#include <errno.h>
 
 using namespace std;
 
@@ -42,81 +42,64 @@ NS_CC_BEGIN
 
 FileUtils* FileUtils::getInstance()
 {
-    if (s_sharedFileUtils == NULL)
-    {
-        s_sharedFileUtils = new FileUtilsQt();
-        if(!s_sharedFileUtils->init())
-        {
-          delete s_sharedFileUtils;
-          s_sharedFileUtils = NULL;
-          CCLOG("ERROR: Could not init CCFileUtilsQt");
-        }
+    if (s_sharedFileUtils == NULL) {
+        s_sharedFileUtils = new CCFileUtilsQt();
+        s_sharedFileUtils->init();
     }
     return s_sharedFileUtils;
 }
 
-FileUtilsQt::FileUtilsQt()
-{}
-
-bool FileUtilsQt::init()
+CCFileUtilsQt::CCFileUtilsQt()
 {
-    // get application path
-    char fullpath[256] = {0};
-    ssize_t length = readlink("/proc/self/exe", fullpath, sizeof(fullpath)-1);
+}
 
-    if (length <= 0) {
-        return false;
+bool CCFileUtilsQt::init()
+{
+    void* callstack[128];
+    int i, frames = backtrace(callstack, 128);
+    char** strs = backtrace_symbols(callstack, frames);
+    for (i = 0; i < frames; ++i) {
+        printf("[call-stack] %s\n", strs[i]);
     }
+    free(strs);
 
-    fullpath[length] = '\0';
-    std::string appPath = fullpath;
-    _defaultResRootPath = appPath.substr(0, appPath.find_last_of("/"));
-    _defaultResRootPath += "/Resources/";
-
-    // Set writable path to $XDG_CONFIG_HOME or ~/.config/<app name>/ if $XDG_CONFIG_HOME not exists.
-    const char* xdg_config_path = getenv("XDG_CONFIG_HOME");
-    std::string xdgConfigPath;
-    if (xdg_config_path == NULL) {
-        xdgConfigPath = getenv("HOME");
-        xdgConfigPath += "/.config";
-    } else {
-        xdgConfigPath  = xdg_config_path;
+    QDir _execDir(qApp->applicationDirPath());
+    QDir _resourceDir(_execDir);
+    _resourceDir.cdUp();
+    _resourceDir.cd("Resources");
+    QString _path = _resourceDir.absolutePath();
+    if (_path.endsWith("/", Qt::CaseInsensitive) == false) {
+        _path.append("/");
     }
-    _writablePath = xdgConfigPath;
-    _writablePath += appPath.substr(appPath.find_last_of("/"));
-    _writablePath += "/";
+    _defaultResRootPath = _path.toStdString();
+
+//    CCLOG("_defaultResRootPath = %s", _defaultResRootPath.c_str());
 
     return FileUtils::init();
 }
 
-string FileUtilsQt::getWritablePath() const
+bool CCFileUtilsQt::isFileExistInternal(const std::string& strFilePath) const
 {
-    struct stat st;
-    stat(_writablePath.c_str(), &st);
-    if (!S_ISDIR(st.st_mode)) {
-        mkdir(_writablePath.c_str(), 0744);
-    }
-
-    return _writablePath;
-}
-
-bool FileUtilsQt::isFileExistInternal(const std::string& strFilePath) const
-{
-    if (strFilePath.empty())
-    {
-        return false;
-    }
-
     std::string strPath = strFilePath;
     if (!isAbsolutePath(strPath))
     { // Not absolute path, add the default root path at the beginning.
         strPath.insert(0, _defaultResRootPath);
     }
-    
-    struct stat sts;
-    return (stat(strPath.c_str(), &sts) != -1) ? true : false;
+    QFileInfo fileInfo(strPath.c_str());
+    return fileInfo.exists();
+}
+
+bool CCFileUtilsQt::isAbsolutePath(const std::string& strPath) const
+{
+    QFileInfo fileInfo(strPath.c_str());
+    return fileInfo.isAbsolute();
+}
+
+std::string
+CCFileUtilsQt::getWritablePath() const
+{
+    std::string ret(qApp->applicationDirPath().toLocal8Bit().constData());
+    return ret;
 }
 
 NS_CC_END
-
-#endif // CC_TARGET_PLATFORM == CC_PLATFORM_QT5

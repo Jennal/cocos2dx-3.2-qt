@@ -6,7 +6,7 @@ if(WIN32)
   set(PLATFORM_LINK
     websockets
   )
-elseif(NOT APPLE)
+else()
   set(PLATFORM_SRC
     network/WebSocket.cpp
   )

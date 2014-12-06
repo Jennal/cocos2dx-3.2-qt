@@ -11,7 +11,7 @@ if(USE_GLFW)
     platform/qt/glfw/CCApplication.cpp
     platform/qt/glfw/CCCommon.cpp
     platform/qt/glfw/CCDevice.cpp
-    platform/qt/CCFileUtilsQt.cpp
+    platform/qt/glfw/CCFileUtilsQt.cpp
     platform/qt/glfw/UIMessageAdapter.cpp
     # platform/qt/glfw/CCStdC.cpp
     ${QT_MOC_FILES}

@@ -178,12 +178,12 @@ THE SOFTWARE.
     #include "platform/qt/glfw/CCGL.h"
     #include "platform/qt/glfw/CCStdC.h"
     #include "platform/qt/glfw/UIMessageAdapter.h"
-  #else
+  #else /* USE_GLFW */
     #include "platform/qt/CCApplication.h"
     #include "platform/qt/CCGLView.h"
     #include "platform/qt/CCGL.h"
     #include "platform/qt/CCStdC.h"
-  #endif
+  #endif /* USE_GLFW */
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_QT5
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
