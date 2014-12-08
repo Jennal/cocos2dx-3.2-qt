@@ -198,7 +198,7 @@ else() # Assume Linux
 endif()
 
 if(ENV_QT)
-  set(COCOS_PLATFORM_FOLDER qt)
+  set(COCOS_PLATFORM_FOLDER qt/glfw)
 else()
   set(COCOS_PLATFORM_FOLDER ${PLATFORM_FOLDER})
 endif(ENV_QT)
