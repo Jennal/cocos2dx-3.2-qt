@@ -54,3 +54,4 @@ const std::string UIMessageAdapter::pop(bool& ok)
     ok = true;
     return m_data.dequeue();
 }
+

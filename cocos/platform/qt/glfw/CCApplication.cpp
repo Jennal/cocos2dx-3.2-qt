@@ -35,12 +35,15 @@ THE SOFTWARE.
 #include "CCGLView.h"
 #include <QtCore/QThread>
 #include "UIMessageAdapter.h"
+#include "lua_qt_bridge_auto.hpp"
 
 /* Test */
 #define TEST_UI_MESSGAE
 #ifdef TEST_UI_MESSGAE
 #include "2d/CCLabelTTF.h"
 #include "2d/CCScene.h"
+#include "scripting/lua-bindings/manual/CCLuaEngine.h"
+
 #endif /* TEST_UI_MESSGAE */
 
 NS_CC_BEGIN
@@ -280,25 +283,38 @@ void Application::pollUIEvents()
     if(!hasMessage) return;
 
 #ifdef TEST_UI_MESSGAE
-    CCLOG("UIEvents: %s", message.c_str());
+    CCLOG("UIEvents: %s %p", message.c_str(), scene);
 
-    auto visibleSize = Director::getInstance()->getVisibleSize();
-    auto origin = Director::getInstance()->getVisibleOrigin();
+    auto engine = LuaEngine::getInstance();
+    ScriptEngineManager::getInstance()->setScriptEngine(engine);
 
-    /////////////////////////////
-    // 3. add your codes below...
+    LuaStack* stack = engine->getLuaStack();
+    stack->executeString("QTEventHandler = require \"MapEditor.QTEventHandler\"");
+    std::string code = "";
+    code.append("QTEventHandler:getInstance():onEvent(");
+    code.append(message);
+    code.append(")");
+    CCLOG("UIEvents: %s", code.c_str());
 
-    // add a label shows "Hello World"
-    // create and initialize a label
+    stack->executeString(code.c_str());
 
-    auto label = LabelTTF::create(message.c_str(), "Arial", 24.0f);
+    // auto visibleSize = Director::getInstance()->getVisibleSize();
+    // auto origin = Director::getInstance()->getVisibleOrigin();
 
-    // position the label on the center of the screen
-    label->setPosition(Vec2(origin.x + visibleSize.width/2,
-                            origin.y + visibleSize.height/2));
+    // /////////////////////////////
+    // // 3. add your codes below...
 
-    // add the label as a child to this layer
-    scene->addChild(label, 1);
+    // // add a label shows "Hello World"
+    // // create and initialize a label
+
+    // auto label = LabelTTF::create(message.c_str(), "Arial", 24.0f);
+
+    // // position the label on the center of the screen
+    // label->setPosition(Vec2(origin.x + visibleSize.width/2,
+    //                         origin.y + visibleSize.height/2));
+
+    // // add the label as a child to this layer
+    // scene->addChild(label, 1);
 #endif /* TEST_UI_MESSGAE */
 }
 
