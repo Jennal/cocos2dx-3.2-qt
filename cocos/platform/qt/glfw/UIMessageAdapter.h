@@ -19,6 +19,7 @@ public:
 
 signals:
     void cocos2dxWindowPosChanged(int x, int y);
+    void cocos2dxEventSignals(int id, std::string params);
 
 private:
     QMutex m_mutex;
