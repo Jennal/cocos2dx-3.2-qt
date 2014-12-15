@@ -22,6 +22,7 @@ if(USE_GLFW)
     platform/qt/glfw/CCCommon.cpp
     platform/qt/glfw/CCFileUtilsQt.cpp
     platform/qt/glfw/UIMessageAdapter.cpp
+    platform/qt/glfw/Cocos2dxBridge.cpp
     ${DEVICE_FILES}
     # platform/qt/glfw/CCStdC.cpp
     ${QT_MOC_FILES}
@@ -71,6 +72,7 @@ endif()
 
 include_directories(
   ../external/ConvertUTF
+  ../external/lua/tolua
 )
 
 set(COCOS_PLATFORM_SRC

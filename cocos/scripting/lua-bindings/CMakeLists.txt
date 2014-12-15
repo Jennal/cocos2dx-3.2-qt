@@ -8,6 +8,7 @@ set(LUABINDING_SRC
   auto/lua_cocos2dx_spine_auto.cpp
   auto/lua_cocos2dx_studio_auto.cpp
   auto/lua_cocos2dx_ui_auto.cpp
+  auto/lua_qt_bridge_auto.cpp
   manual/lua_debugger.c
   manual/lua_extensions.c
   manual/CCBProxy.cpp
