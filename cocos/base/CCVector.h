@@ -69,14 +69,14 @@ public:
     Vector<T>()
     : _data()
     {
-        static_assert(std::is_convertible<T, Ref*>::value, "Invalid Type for cocos2d::Vector<T>!");
+        //static_assert(std::is_convertible<T, Ref*>::value, "Invalid Type for cocos2d::Vector<T>!");
     }
     
     /** Constructor with a capacity */
     explicit Vector<T>(ssize_t capacity)
     : _data()
     {
-        static_assert(std::is_convertible<T, Ref*>::value, "Invalid Type for cocos2d::Vector<T>!");
+        //static_assert(std::is_convertible<T, Ref*>::value, "Invalid Type for cocos2d::Vector<T>!");
         CCLOGINFO("In the default constructor with capacity of Vector.");
         reserve(capacity);
     }
@@ -91,7 +91,7 @@ public:
     /** Copy constructor */
     Vector<T>(const Vector<T>& other)
     {
-        static_assert(std::is_convertible<T, Ref*>::value, "Invalid Type for cocos2d::Vector<T>!");
+        //static_assert(std::is_convertible<T, Ref*>::value, "Invalid Type for cocos2d::Vector<T>!");
         CCLOGINFO("In the copy constructor!");
         _data = other._data;
         addRefForAllObjects();
@@ -100,7 +100,7 @@ public:
     /** Move constructor */
     Vector<T>(Vector<T>&& other)
     {
-        static_assert(std::is_convertible<T, Ref*>::value, "Invalid Type for cocos2d::Vector<T>!");
+        //static_assert(std::is_convertible<T, Ref*>::value, "Invalid Type for cocos2d::Vector<T>!");
         CCLOGINFO("In the move constructor of Vector!");
         _data = std::move(other._data);
     }
@@ -270,7 +270,7 @@ public:
     {
         CCASSERT(object != nullptr, "The object should not be nullptr");
         _data.push_back( object );
-        object->retain();
+        ((Ref*)object)->retain();
     }
     
     /** Push all elements of an existing vector to the end of current vector. */
@@ -278,7 +278,7 @@ public:
     {
         for(const auto &obj : other) {
             _data.push_back(obj);
-            obj->retain();
+            ((Ref*)obj)->retain();
         }
     }
 
@@ -293,7 +293,7 @@ public:
         CCASSERT(index >= 0 && index <= size(), "Invalid index!");
         CCASSERT(object != nullptr, "The object should not be nullptr");
         _data.insert((std::begin(_data) + index), object);
-        object->retain();
+        ((Ref*)object)->retain();
     }
     
     // Removes Objects
@@ -306,7 +306,7 @@ public:
         CCASSERT(!_data.empty(), "no objects added");
         auto last = _data.back();
         _data.pop_back();
-        last->release();
+        ((Ref*)last)->release();
     }
     
     /** @brief Remove a certain object in Vector.
@@ -325,7 +325,7 @@ public:
                 if ((*iter) == object)
                 {
                     iter = _data.erase(iter);
-                    object->release();
+                    ((Ref*)object)->release();
                 }
                 else
                 {
@@ -339,7 +339,7 @@ public:
             if (iter != _data.end())
             {
                 _data.erase(iter);
-                object->release();
+                ((Ref*)object)->release();
             }
         }
     }
@@ -352,7 +352,7 @@ public:
     iterator erase(iterator position)
     {
         CCASSERT(position >= _data.begin() && position < _data.end(), "Invalid position!");
-        (*position)->release();
+        ((Ref*)(*position))->release();
         return _data.erase(position);
     }
     
@@ -366,7 +366,7 @@ public:
     {
         for (auto iter = first; iter != last; ++iter)
         {
-            (*iter)->release();
+            ((Ref*)(*iter))->release();
         }
         
         return _data.erase(first, last);
@@ -381,7 +381,7 @@ public:
     {
         CCASSERT(!_data.empty() && index >=0 && index < size(), "Invalid index!");
         auto it = std::next( begin(), index );
-        (*it)->release();
+        ((Ref*)(*it))->release();
         return _data.erase(it);
     }
 
@@ -391,7 +391,7 @@ public:
     void clear()
     {
         for( auto it = std::begin(_data); it != std::end(_data); ++it ) {
-            (*it)->release();
+            ((Ref*)(*it))->release();
         }
         _data.clear();
     }
@@ -423,9 +423,9 @@ public:
         CCASSERT(index >= 0 && index < size(), "Invalid index!");
         CCASSERT(object != nullptr, "The object should not be nullptr");
         
-        _data[index]->release();
+        ((Ref*)_data[index])->release();
         _data[index] = object;
-        object->retain();
+        ((Ref*)object)->retain();
     }
 
     /** reverses the vector */
@@ -446,7 +446,7 @@ protected:
     void addRefForAllObjects()
     {
         for(const auto &obj : _data) {
-            obj->retain();
+            ((Ref*)obj)->retain();
         }
     }
     

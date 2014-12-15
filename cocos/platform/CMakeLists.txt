@@ -5,14 +5,24 @@ if(USE_GLFW)
     platform/qt/glfw/CCApplication.h
     platform/qt/glfw/UIMessageAdapter.h
   )
+  
+  if(WIN32)
+    set(DEVICE_FILES
+      platform/qt/glfw/CCDevice.cpp
+    )
+  else()
+    set(DEVICE_FILES
+      platform/qt/glfw/CCDevice.cpp
+    )
+  endif(WIN32)
 
   set(COCOS_PLATFORM_SPECIFIC_SRC
     platform/qt/glfw/CCGLView.cpp
     platform/qt/glfw/CCApplication.cpp
     platform/qt/glfw/CCCommon.cpp
-    platform/qt/glfw/CCDevice.cpp
     platform/qt/glfw/CCFileUtilsQt.cpp
     platform/qt/glfw/UIMessageAdapter.cpp
+    ${DEVICE_FILES}
     # platform/qt/glfw/CCStdC.cpp
     ${QT_MOC_FILES}
   )

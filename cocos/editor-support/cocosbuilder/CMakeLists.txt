@@ -27,6 +27,12 @@ include_directories(
   ..
 )
 
+if(WIN32)
+  include_directories(
+    ../../../external/win32-specific/gles/include
+  )
+endif(WIN32)
+
 add_library(cocosbuilder STATIC
   ${CCB_SRC}
 )

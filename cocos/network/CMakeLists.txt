@@ -4,7 +4,11 @@ if(WIN32)
   )
 
   set(PLATFORM_LINK
-    websockets
+    websockets_dll
+  )
+
+  include_directories(
+    ../external/curl/include/win32
   )
 else()
   set(PLATFORM_SRC
@@ -31,7 +35,7 @@ IF (WIN32 AND NOT MINGW)
   )
 ELSE()
   set(COCOS_NETWORK_LINK
-    curl
+    curl_dll
     ${PLATFORM_LINK}
   )
 ENDIF()

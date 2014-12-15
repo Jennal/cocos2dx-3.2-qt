@@ -35,6 +35,10 @@
 #include <time.h>
 #include <fcntl.h>
 
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_QT5)
+#include <QtCore/QtGlobal>
+#endif
+
 #if defined(_MSC_VER) || defined(__MINGW32__)
 #include <io.h>
 #include <WS2tcpip.h>
@@ -1075,7 +1079,7 @@ void Console::loop()
                     //receive a SIGPIPE, which will cause linux system shutdown the sending process.
                     //Add this ioctl code to check if the socket has been closed by peer.
                     
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) || (CC_TARGET_PLATFORM == CC_PLATFORM_WP8)
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) || (CC_TARGET_PLATFORM == CC_PLATFORM_WP8) || defined(Q_OS_WIN)
                     u_long n = 0;
                     ioctlsocket(fd, FIONREAD, &n);
 #else

@@ -38,18 +38,27 @@ if(WIN32)
 
 if(MINGW)
 
-set(COCOS_LINK
-  z
-  jpeg
-  png
-  webp
-  tiff
-  glfw3
-  glew32
-  opengl32
-  iconv
-  freetype
-  bz2
+  set(COCOS_LINK
+    z
+    turbojpeg
+    # jpeg
+    jbig_dll
+    png
+    webp
+    tiff_dll
+    glfw3
+    glew32
+    opengl32
+    Ws2_32
+    iconv
+    harfbuzz_dll
+    freetype_dll
+    fontconfig_dll
+    bz2
+  )
+
+  include_directories(
+    ../external/win32-specific/gles/include
   )
 
 else()
@@ -113,6 +122,15 @@ target_link_libraries(cocos2d
   ${COCOS_NETWORK_LINK}
   ${COCOS_LINK}
 )
+
+if(ENV_QT)
+  set_target_properties(cocos2d PROPERTIES LINK_SEARCH_START_STATIC 1)
+  set_target_properties(cocos2d PROPERTIES LINK_SEARCH_END_STATIC 1)
+  message("LINK_LIB_QT: " ${LINK_LIB_QT})
+  target_link_libraries(cocos2d
+    ${LINK_LIB_QT}
+  )
+endif(ENV_QT)
 
 set_target_properties(cocos2d
     PROPERTIES

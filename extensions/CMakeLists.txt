@@ -29,6 +29,11 @@ if(WIN32)
   set(PLATFORM_EXTENSIONS_SRC
     proj.win32/Win32InputBox.cpp
   )
+
+  include_directories(
+    ../external/win32-specific/gles/include
+    ../external/curl/include/win32
+  )
 elseif(APPLE)
 
 else()

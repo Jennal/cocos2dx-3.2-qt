@@ -33,8 +33,10 @@ THE SOFTWARE.
 #include <QtWidgets/QApplication>
 #include <QtCore/QFileInfo>
 
+#ifdef Q_OS_MAC
 #include <execinfo.h>
 #include <stdio.h>
+#endif
 
 using namespace std;
 
@@ -55,6 +57,7 @@ CCFileUtilsQt::CCFileUtilsQt()
 
 bool CCFileUtilsQt::init()
 {
+#ifdef Q_OS_MAC
     void* callstack[128];
     int i, frames = backtrace(callstack, 128);
     char** strs = backtrace_symbols(callstack, frames);
@@ -62,6 +65,7 @@ bool CCFileUtilsQt::init()
         printf("[call-stack] %s\n", strs[i]);
     }
     free(strs);
+#endif
 
     QDir _execDir(qApp->applicationDirPath());
     QDir _resourceDir(_execDir);

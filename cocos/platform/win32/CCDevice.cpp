@@ -24,7 +24,7 @@ THE SOFTWARE.
 ****************************************************************************/
 
 #include "base/CCPlatformConfig.h"
-#if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) || (CC_TARGET_PLATFORM == CC_PLATFORM_QT5)
 
 #include "platform/CCDevice.h"
 #include "platform/CCFileUtils.h"
@@ -405,7 +405,7 @@ Data Device::getTextureDataForText(const char * text, const FontDefinition& text
         }
 
         // draw text
-        SIZE size = {textDefinition._dimensions.width, textDefinition._dimensions.height};
+        SIZE size = {(LONG)textDefinition._dimensions.width, (LONG)textDefinition._dimensions.height};
         CC_BREAK_IF(! dc.drawText(text, size, align));
 
         int dataLen = size.cx * size.cy * 4;

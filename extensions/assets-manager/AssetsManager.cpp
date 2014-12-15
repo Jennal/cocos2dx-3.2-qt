@@ -444,7 +444,7 @@ bool AssetsManager::uncompress()
  */
 bool AssetsManager::createDirectory(const char *path)
 {
-#if (CC_TARGET_PLATFORM != CC_PLATFORM_WIN32)
+#if (CC_TARGET_PLATFORM != CC_PLATFORM_WIN32) && ! defined(Q_OS_WIN)
     mode_t processMask = umask(0);
     int ret = mkdir(path, S_IRWXU | S_IRWXG | S_IRWXO);
     umask(processMask);
@@ -631,7 +631,7 @@ AssetsManager* AssetsManager::create(const char* packageUrl, const char* version
 void AssetsManager::createStoragePath()
 {
     // Remove downloaded files
-#if (CC_TARGET_PLATFORM != CC_PLATFORM_WIN32)
+#if (CC_TARGET_PLATFORM != CC_PLATFORM_WIN32) && ! defined(Q_OS_WIN)
     DIR *dir = nullptr;
     
     dir = opendir (_storagePath.c_str());

@@ -173,7 +173,7 @@ CC_CONSTRUCTOR_ACCESS:
 
 protected:
     //add the api for avoid use deprecated api
-    void _addTouchListener();
+    void _addTouchListener(){ CC_ASSERT(0); }
 
     CC_DEPRECATED_ATTRIBUTE void addTouchListener() { _addTouchListener();};
     CC_DEPRECATED_ATTRIBUTE int executeScriptTouchHandler(EventTouch::EventCode eventType, Touch* touch, Event* event);

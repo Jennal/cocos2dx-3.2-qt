@@ -52,6 +52,11 @@ include_directories(
   ../../../external/xxtea
 )
 
+if(WIN32)
+  include_directories(
+    ../../../external/win32-specific/gles/include
+  )
+endif(WIN32)
 
 add_library(luabinding STATIC
   ${LUABINDING_SRC}
@@ -67,6 +72,10 @@ target_link_libraries(luabinding
   xxtea
   luasocket
   ${TARGET_SPINE_LIB}
+  cocos2d
+  extensions
+  cocosbuilder
+  cocostudio
 )
 
 set_target_properties(luabinding

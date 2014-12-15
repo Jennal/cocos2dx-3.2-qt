@@ -73,7 +73,7 @@ public:
     Map<K, V>()
     : _data()
     {
-        static_assert(std::is_convertible<V, Ref*>::value, "Invalid Type for cocos2d::Map<K, V>!");
+        //static_assert(std::is_convertible<V, Ref*>::value, "Invalid Type for cocos2d::Map<K, V>!");
         CCLOGINFO("In the default constructor of Map!");
     }
     
@@ -81,7 +81,7 @@ public:
     explicit Map<K, V>(ssize_t capacity)
     : _data()
     {
-        static_assert(std::is_convertible<V, Ref*>::value, "Invalid Type for cocos2d::Map<K, V>!");
+        //static_assert(std::is_convertible<V, Ref*>::value, "Invalid Type for cocos2d::Map<K, V>!");
         CCLOGINFO("In the constructor with capacity of Map!");
         _data.reserve(capacity);
     }
@@ -89,7 +89,7 @@ public:
     /** Copy constructor */
     Map<K, V>(const Map<K, V>& other)
     {
-        static_assert(std::is_convertible<V, Ref*>::value, "Invalid Type for cocos2d::Map<K, V>!");
+        //static_assert(std::is_convertible<V, Ref*>::value, "Invalid Type for cocos2d::Map<K, V>!");
         CCLOGINFO("In the copy constructor of Map!");
         _data = other._data;
         addRefForAllObjects();
@@ -98,7 +98,7 @@ public:
     /** Move constructor */
     Map<K, V>(Map<K, V>&& other)
     {
-        static_assert(std::is_convertible<V, Ref*>::value, "Invalid Type for cocos2d::Map<K, V>!");
+        //static_assert(std::is_convertible<V, Ref*>::value, "Invalid Type for cocos2d::Map<K, V>!");
         CCLOGINFO("In the move constructor of Map!");
         _data = std::move(other._data);
     }
@@ -253,7 +253,7 @@ public:
         CCASSERT(object != nullptr, "Object is nullptr!");
         erase(key);
         _data.insert(std::make_pair(key, object));
-        object->retain();
+        ((Ref*)object)->retain();
     }
     
     /** @brief Removes an element with an iterator from the Map<K, V> container.
@@ -263,7 +263,7 @@ public:
     iterator erase(const_iterator position)
     {
         CCASSERT(position != _data.cend(), "Invalid iterator!");
-        position->second->release();
+        ((Ref*)position->second)->release();
         return _data.erase(position);
     }
     
@@ -277,7 +277,7 @@ public:
         auto iter = _data.find(k);
         if (iter != _data.end())
         {
-            iter->second->release();
+            ((Ref*)iter->second)->release();
             _data.erase(iter);
             return 1;
         }
@@ -303,7 +303,7 @@ public:
     {
         for (auto iter = _data.cbegin(); iter != _data.cend(); ++iter)
         {
-            iter->second->release();
+            ((Ref*)iter->second)->release();
         }
         
         _data.clear();
@@ -379,7 +379,7 @@ protected:
     {
         for (auto iter = _data.begin(); iter != _data.end(); ++iter)
         {
-            iter->second->retain();
+            ((Ref*)iter->second)->retain();
         }
     }
     

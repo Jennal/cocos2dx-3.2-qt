@@ -1,7 +1,11 @@
 if(WIN32)
   set(SOCKET_FILE wsocket.c)
 else()
-  set(SOCKET_FILE usocket.c)
+  set(SOCKET_FILE 
+    usocket.c
+    unix.c
+    serial.c
+  )
 endif()
 
 set(SRC_FILES
@@ -14,12 +18,14 @@ set(SRC_FILES
   mime.c
   options.c
   select.c
-  serial.c
   tcp.c
   timeout.c
   udp.c
-  unix.c
   ${SOCKET_FILE}
+)
+
+include_directories(
+  ../lua
 )
 
 add_library(luasocket STATIC

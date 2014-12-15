@@ -28,7 +28,12 @@ THE SOFTWARE.
 #include "base/CCPlatformConfig.h"
 #if CC_TARGET_PLATFORM == CC_PLATFORM_QT5
 
+#include <QtCore/QtGlobal>
+#ifdef Q_OS_WIN
+#include "OGLES/GL/glew.h"
+#else
 #include "GL/glew.h"
+#endif
 
 #define CC_GL_DEPTH24_STENCIL8		GL_DEPTH24_STENCIL8
 
