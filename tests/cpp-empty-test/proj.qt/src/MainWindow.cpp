@@ -14,6 +14,8 @@ MainWindow::MainWindow(QWidget *parent) :
     setupUi(this);
     initTabs();
 
+    QObject::connect(pushButton, SIGNAL(clicked()),
+                     this, SLOT(btnClicked()));
     QObject::connect(UIMessageAdapter::getInstance(), SIGNAL(cocos2dxWindowPosChanged(int, int)),
                      this, SLOT(onCocos2dxWindowMoved(int, int)));
 }
