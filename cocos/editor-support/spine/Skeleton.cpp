@@ -61,9 +61,9 @@ spSkeleton* spSkeleton_create (spSkeletonData* data) {
 	CONST_CAST(spBone*, self->root) = self->bones[0];
 
 	self->slotCount = data->slotCount;
-	self->slots = MALLOC(spSlot*, self->slotCount);
+        self->slotss = MALLOC(spSlot*, self->slotCount);
 	for (i = 0; i < self->slotCount; ++i) {
-		spSlotData *slotData = data->slots[i];
+                spSlotData *slotData = data->slotss[i];
 
 		/* Find bone for the slotData's boneData. */
 		spBone* bone = 0;
@@ -73,11 +73,11 @@ spSkeleton* spSkeleton_create (spSkeletonData* data) {
 				break;
 			}
 		}
-		self->slots[i] = spSlot_create(slotData, self, bone);
+                self->slotss[i] = spSlot_create(slotData, self, bone);
 	}
 
 	self->drawOrder = MALLOC(spSlot*, self->slotCount);
-	memcpy(self->drawOrder, self->slots, sizeof(spSlot*) * self->slotCount);
+        memcpy(self->drawOrder, self->slotss, sizeof(spSlot*) * self->slotCount);
 
 	self->r = 1;
 	self->g = 1;
@@ -94,8 +94,8 @@ void spSkeleton_dispose (spSkeleton* self) {
 	FREE(self->bones);
 
 	for (i = 0; i < self->slotCount; ++i)
-		spSlot_dispose(self->slots[i]);
-	FREE(self->slots);
+                spSlot_dispose(self->slotss[i]);
+        FREE(self->slotss);
 
 	FREE(self->drawOrder);
 	FREE(self);
@@ -120,9 +120,9 @@ void spSkeleton_setBonesToSetupPose (const spSkeleton* self) {
 
 void spSkeleton_setSlotsToSetupPose (const spSkeleton* self) {
 	int i;
-	memcpy(self->drawOrder, self->slots, self->slotCount * sizeof(int));
+        memcpy(self->drawOrder, self->slotss, self->slotCount * sizeof(int));
 	for (i = 0; i < self->slotCount; ++i)
-		spSlot_setToSetupPose(self->slots[i]);
+                spSlot_setToSetupPose(self->slotss[i]);
 }
 
 spBone* spSkeleton_findBone (const spSkeleton* self, const char* boneName) {
@@ -142,14 +142,14 @@ int spSkeleton_findBoneIndex (const spSkeleton* self, const char* boneName) {
 spSlot* spSkeleton_findSlot (const spSkeleton* self, const char* slotName) {
 	int i;
 	for (i = 0; i < self->slotCount; ++i)
-		if (strcmp(self->data->slots[i]->name, slotName) == 0) return self->slots[i];
+                if (strcmp(self->data->slotss[i]->name, slotName) == 0) return self->slotss[i];
 	return 0;
 }
 
 int spSkeleton_findSlotIndex (const spSkeleton* self, const char* slotName) {
 	int i;
 	for (i = 0; i < self->slotCount; ++i)
-		if (strcmp(self->data->slots[i]->name, slotName) == 0) return i;
+                if (strcmp(self->data->slotss[i]->name, slotName) == 0) return i;
 	return -1;
 }
 
@@ -191,7 +191,7 @@ spAttachment* spSkeleton_getAttachmentForSlotIndex (const spSkeleton* self, int 
 int spSkeleton_setAttachment (spSkeleton* self, const char* slotName, const char* attachmentName) {
 	int i;
 	for (i = 0; i < self->slotCount; ++i) {
-		spSlot *slot = self->slots[i];
+                spSlot *slot = self->slotss[i];
 		if (strcmp(slot->data->name, slotName) == 0) {
 			if (!attachmentName)
 				spSlot_setAttachment(slot, 0);

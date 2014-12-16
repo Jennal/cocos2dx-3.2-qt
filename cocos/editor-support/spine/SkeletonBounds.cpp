@@ -132,7 +132,7 @@ void spSkeletonBounds_update (spSkeletonBounds* self, spSkeleton* skeleton, int/
 		spPolygon* polygon;
 		spBoundingBoxAttachment* boundingBox;
 
-		spSlot* slot = skeleton->slots[i];
+                spSlot* slot = skeleton->slotss[i];
 		spAttachment* attachment = slot->attachment;
 		if (!attachment || attachment->type != ATTACHMENT_BOUNDING_BOX) continue;
 		boundingBox = (spBoundingBoxAttachment*)attachment;

@@ -316,7 +316,7 @@ spSkeletonData* spSkeletonJson_readSkeletonDataFile (spSkeletonJson* self, const
 spSkeletonData* spSkeletonJson_readSkeletonData (spSkeletonJson* self, const char* json) {
 	int i;
 	spSkeletonData* skeletonData;
-	Json *root, *bones, *boneMap, *slots, *skins, *animations, *events;
+        Json *root, *bones, *boneMap, *slotss, *skins, *animations, *events;
 
 	FREE(self->error);
 	CONST_CAST(char*, self->error) = 0;
@@ -359,11 +359,11 @@ spSkeletonData* spSkeletonJson_readSkeletonData (spSkeletonJson* self, const cha
 		++skeletonData->boneCount;
 	}
 
-	slots = Json_getItem(root, "slots");
-	if (slots) {
+        slotss = Json_getItem(root, "slots");
+        if (slotss) {
 		Json *slotMap;
-		skeletonData->slots = MALLOC(spSlotData*, slots->size);
-		for (slotMap = slots->child, i = 0; slotMap; slotMap = slotMap->next, ++i) {
+                skeletonData->slotss = MALLOC(spSlotData*, slotss->size);
+                for (slotMap = slotss->child, i = 0; slotMap; slotMap = slotMap->next, ++i) {
 			spSlotData* slotData;
 			const char* color;
 			Json *attachmentItem;
@@ -391,7 +391,7 @@ spSkeletonData* spSkeletonJson_readSkeletonData (spSkeletonJson* self, const cha
 
 			slotData->additiveBlending = Json_getInt(slotMap, "additive", 0);
 
-			skeletonData->slots[i] = slotData;
+                        skeletonData->slotss[i] = slotData;
 			++skeletonData->slotCount;
 		}
 	}

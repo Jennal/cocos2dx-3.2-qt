@@ -407,7 +407,7 @@ void _spColorTimeline_apply (const spTimeline* timeline, spSkeleton* skeleton, f
 
 	if (time < self->frames[0]) return; /* Time is before first frame. */
 
-	slot = skeleton->slots[self->slotIndex];
+        slot = skeleton->slotss[self->slotIndex];
 
 	if (time >= self->frames[self->framesLength - 5]) { /* Time is after last frame. */
 		int i = self->framesLength - 1;
@@ -474,7 +474,7 @@ void _spAttachmentTimeline_apply (const spTimeline* timeline, spSkeleton* skelet
 		frameIndex = binarySearch(self->frames, self->framesLength, time, 1) - 1;
 
 	attachmentName = self->attachmentNames[frameIndex];
-	spSlot_setAttachment(skeleton->slots[self->slotIndex],
+        spSlot_setAttachment(skeleton->slotss[self->slotIndex],
 			attachmentName ? spSkeleton_getAttachmentForSlotIndex(skeleton, self->slotIndex, attachmentName) : 0);
 }
 
@@ -594,10 +594,10 @@ void _spDrawOrderTimeline_apply (const spTimeline* timeline, spSkeleton* skeleto
 
 	drawOrderToSetupIndex = self->drawOrders[frameIndex];
 	if (!drawOrderToSetupIndex)
-		memcpy(skeleton->drawOrder, skeleton->slots, self->slotCount * sizeof(int));
+                memcpy(skeleton->drawOrder, skeleton->slotss, self->slotCount * sizeof(int));
 	else {
 		for (i = 0; i < self->slotCount; i++)
-			skeleton->drawOrder[i] = skeleton->slots[drawOrderToSetupIndex[i]];
+                        skeleton->drawOrder[i] = skeleton->slotss[drawOrderToSetupIndex[i]];
 	}
 }
 

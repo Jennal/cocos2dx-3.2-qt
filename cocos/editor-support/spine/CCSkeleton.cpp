@@ -250,7 +250,7 @@ Rect Skeleton::getBoundingBox () const {
 	float scaleY = getScaleY();
 	float vertices[8];
 	for (int i = 0; i < skeleton->slotCount; ++i) {
-		spSlot* slot = skeleton->slots[i];
+                spSlot* slot = skeleton->slotss[i];
 		if (!slot->attachment || slot->attachment->type != ATTACHMENT_REGION) continue;
 		spRegionAttachment* attachment = (spRegionAttachment*)slot->attachment;
 		spRegionAttachment_computeWorldVertices(attachment, slot->skeleton->x, slot->skeleton->y, slot->bone, vertices);

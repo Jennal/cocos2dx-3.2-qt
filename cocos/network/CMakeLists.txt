@@ -33,9 +33,14 @@ IF (WIN32 AND NOT MINGW)
     libcurl_imp
     ${PLATFORM_LINK}
   )
-ELSE()
+ELSEIF (WIN32) #MINGW
   set(COCOS_NETWORK_LINK
     curl_dll
+    ${PLATFORM_LINK}
+  )
+ELSE() #APPLE/Linux
+  set(COCOS_NETWORK_LINK
+    curl
     ${PLATFORM_LINK}
   )
 ENDIF()

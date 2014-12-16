@@ -51,7 +51,7 @@ struct spSkeleton {
 	spBone* const root;
 
 	int slotCount;
-	spSlot** slots;
+        spSlot** slotss;
 	spSlot** drawOrder;
 
 	spSkin* const skin;
