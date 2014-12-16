@@ -73,6 +73,7 @@ endif()
 include_directories(
   ../external/ConvertUTF
   ../external/lua/tolua
+  ../external/lua/lua
 )
 
 set(COCOS_PLATFORM_SRC

@@ -69,8 +69,10 @@ bool CCFileUtilsQt::init()
 
     QDir _execDir(qApp->applicationDirPath());
     QDir _resourceDir(_execDir);
+#ifdef Q_OS_MAC
     _resourceDir.cdUp();
     _resourceDir.cd("Resources");
+#endif
     QString _path = _resourceDir.absolutePath();
     if (_path.endsWith("/", Qt::CaseInsensitive) == false) {
         _path.append("/");
