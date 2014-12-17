@@ -11,12 +11,47 @@ This is qt port base on
 Build
 ---------------
 
+### MacOSX
+
+#### Requirement
+
+* [brew](http://brew.sh/)
+* [Qt5](http://www.qt.io/download-open-source/#section-3)
+
+#### Command
+
 ```
+$ brew update
+$ brew install glew jpeg webp libtiff freetype glfw libwebsockets
 $ mkdir cmake-build
 $ cd cmake-build
-$ cmake -DENV_QT=ON -DBUILD_AUDIO=OFF -DBUILD_EDITOR_SPINE=OFF -DBUILD_CppTests=OFF -DBUILD_LuaTests=OFF ..
+$ cmake ..
 $ make
 # now execuable program will be in cmake-build/bin folder
+# or you can open CMakeLists.txt from Qt Creator, to build
+```
+
+### Windows
+
+#### Requirement
+
+* [msys2](http://brew.sh/)
+* [Qt5](http://www.qt.io/download-open-source/#section-3)
+
+#### Setup Qt Enviroment
+
+If you install msys2 in `D:\msys2`
+
+```
+CPLUS_INCLUDE_PATH  D:\msys2\msys32\mingw32\include
+LIBRARY_PATH    D:\msys2\msys32\mingw32\lib
+```
+
+#### Command
+
+```
+$ pacman -S --force --noconfirm --needed glfw glew libwebp libjpeg-turbo libpng freetype libiconv zlib curl make clang binutils headers cmake
+# now you can open CMakeLists.txt from Qt Creator, to build
 ```
 
 SnapShot
