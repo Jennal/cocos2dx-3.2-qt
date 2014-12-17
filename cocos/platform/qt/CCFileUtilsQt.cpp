@@ -84,8 +84,7 @@ bool CCFileUtilsQt::isAbsolutePath(const std::string& strPath) const
     return fileInfo.isAbsolute();
 }
 
-std::string
-CCFileUtilsQt::getWritablePath() const
+std::string CCFileUtilsQt::getWritablePath() const
 {
     std::string ret(qApp->applicationDirPath().toLocal8Bit().constData());
     return ret;

@@ -78,6 +78,14 @@ bool CCFileUtilsQt::init()
     return FileUtils::init();
 }
 
+std::string CCFileUtilsQt::getRelativeFilePath(const std::string& filePath) const
+{
+    QDir dir(QString::fromStdString(_defaultResRootPath));
+    printf("_defaultResRootPath=%s\n", _defaultResRootPath.c_str());
+    fflush(stdout);
+    return dir.relativeFilePath(QString::fromStdString(filePath)).toStdString();
+}
+
 bool CCFileUtilsQt::isFileExistInternal(const std::string& strFilePath) const
 {
     std::string strPath = strFilePath;
@@ -89,14 +97,19 @@ bool CCFileUtilsQt::isFileExistInternal(const std::string& strFilePath) const
     return fileInfo.exists();
 }
 
+std::string CCFileUtilsQt::getResourcePath()
+{
+    return _defaultResRootPath;
+}
+
+
 bool CCFileUtilsQt::isAbsolutePath(const std::string& strPath) const
 {
     QFileInfo fileInfo(strPath.c_str());
     return fileInfo.isAbsolute();
 }
 
-std::string
-CCFileUtilsQt::getWritablePath() const
+std::string CCFileUtilsQt::getWritablePath() const
 {
     std::string ret(qApp->applicationDirPath().toLocal8Bit().constData());
     return ret;

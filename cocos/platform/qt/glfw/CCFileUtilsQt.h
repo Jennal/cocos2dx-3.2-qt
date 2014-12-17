@@ -50,6 +50,9 @@ public:
     virtual std::string getWritablePath() const;
     virtual bool isFileExistInternal(const std::string& strFilePath) const;
     virtual bool isAbsolutePath(const std::string& strPath) const;
+
+    std::string getRelativeFilePath(const std::string& filePath) const;
+    std::string getResourcePath();
 };
 
 // end of platform group
