@@ -40,7 +40,7 @@ $ make
 
 #### Setup Qt Enviroment
 
-If you install msys2 in `D:\msys2`
+If you install msys2 in `D:\msys2`, you need to set Qt enviroment
 
 ```
 CPLUS_INCLUDE_PATH  D:\msys2\msys32\mingw32\include
