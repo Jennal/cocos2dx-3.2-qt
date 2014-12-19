@@ -40,8 +40,8 @@ if(MINGW)
 
   set(COCOS_LINK
     z
-    turbojpeg
-    # jpeg
+    # turbojpeg.dll
+    jpeg
     jbig_dll
     png
     webp
