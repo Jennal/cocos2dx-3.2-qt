@@ -27,7 +27,12 @@ namespace cocosbuilder {
  Implementation of CCBFile
  *************************************************************************/
 
-CCBFile::CCBFile():_CCBFileNode(nullptr) {}
+CCBFile::CCBFile():_CCBFileNode(nullptr), _CCBReader(nullptr) {}
+CCBFile::~CCBFile()
+{
+    CC_SAFE_RELEASE(_CCBFileNode);
+    CC_SAFE_RELEASE(_CCBReader);
+}
 
 CCBFile* CCBFile::create()
 {
@@ -40,7 +45,7 @@ CCBFile* CCBFile::create()
     
     return ret;
 }
-
+    
 Node* CCBFile::getCCBFileNode()
 {
     return _CCBFileNode;
@@ -53,6 +58,18 @@ void CCBFile::setCCBFileNode(Node *pNode)
     CC_SAFE_RETAIN(_CCBFileNode);
 }
 
+CCBReader* CCBFile::getCCBReader()
+{
+    return _CCBReader;
+}
+
+void CCBFile::setCCBReader(CCBReader *pReader)
+{
+    CC_SAFE_RELEASE(_CCBReader);
+    _CCBReader = pReader;
+    CC_SAFE_RETAIN(_CCBReader);
+}
+    
 /*************************************************************************
  Implementation of CCBReader
  *************************************************************************/
@@ -119,6 +136,7 @@ CCBReader::~CCBReader()
 
     _ownerOutletNames.clear();
     _ownerCallbackNames.clear();
+    _subCCBFiles.clear();
     
     // Clear string cache.
     this->_stringCache.clear();
@@ -608,6 +626,12 @@ Node * CCBReader::readNodeGraph(Node * pParent)
         
         _animationManager->moveAnimationsFromNode(ccbFileNode, embeddedNode);
 
+        //Jennal added
+        CCBReader* reader = ccbFileNode->getCCBReader();
+//        reader->setMemberName(memberVarAssignmentName);
+        if (reader != nullptr)
+            this->addSubCCBFile(reader);
+        ccbFileNode->setCCBReader(nullptr);
         ccbFileNode->setCCBFileNode(nullptr);
         
         node = embeddedNode;
@@ -1067,6 +1091,24 @@ void CCBReader::addOwnerOutletNode(Node *node)
     _ownerOutletNodes.pushBack(node);
 }
 
+/*
+ Jennal added
+ */
+void CCBReader::addSubCCBFile(CCBReader* v)
+{
+    _subCCBFiles.pushBack(v);
+}
+
+cocos2d::Vector<CCBReader*>& CCBReader::getSubCCBFiles()
+{
+    return _subCCBFiles;
+}
+ 
+std::string CCBReader::getDocumentControllerName()
+{
+    return _animationManager->getDocumentControllerName();
+}
+    
 /************************************************************************
  Static functions
  ************************************************************************/

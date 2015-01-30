@@ -795,6 +795,106 @@ tolua_lerror:
 #endif
 }
 
+static int tolua_cocos2d_CCBReader_getSubReaders(lua_State* tolua_S)
+{
+    if (nullptr == tolua_S)
+        return 0;
+    
+    int argc = 0;
+    CCBReader* self = nullptr;
+    
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+    if (!tolua_isusertype(tolua_S,1,"cc.CCBReader",0,&tolua_err)) goto tolua_lerror;
+#endif
+    
+    self = static_cast<CCBReader*>(tolua_tousertype(tolua_S,1,0));
+#if COCOS2D_DEBUG >= 1
+    if (nullptr == self) {
+        tolua_error(tolua_S,"invalid 'self' in function 'tolua_cocos2d_CCBReader_getSubReaders'\n", NULL);
+        return 0;
+    }
+#endif
+    
+    argc = lua_gettop(tolua_S) - 1;
+    
+    if (argc == 0)
+    {
+        auto tolua_ret = self->getSubCCBFiles();
+        if (tolua_ret.empty()) {
+            return 0;
+        }
+
+        int i = 1;
+        lua_newtable(tolua_S);
+        for(auto item : tolua_ret)
+        {
+            auto reader = item;
+            int ID = (reader) ? (int)reader->_ID : -1;
+            int* luaID = (reader) ? &reader->_luaID : NULL;
+            
+            toluafix_pushusertype_ccobject(tolua_S, ID, luaID, (void*)reader,"cc.CCBReader");
+            lua_rawseti(tolua_S, -2, i);
+            ++i;
+        }
+        return 1;
+        
+    }
+    
+    CCLOG("'getSubReaders' function of CCBReader  has wrong number of arguments: %d, was expecting %d\n", argc, 0);
+    return 0;
+    
+#if COCOS2D_DEBUG >= 1
+tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'getSubReaders'.",&tolua_err);
+    return 0;
+#endif
+}
+
+static int tolua_cocos2d_CCBReader_getDocumentControllerName(lua_State* tolua_S)
+{
+    if (nullptr == tolua_S)
+        return 0;
+    
+    int argc = 0;
+    CCBReader* self = nullptr;
+    
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+    if (!tolua_isusertype(tolua_S,1,"cc.CCBReader",0,&tolua_err)) goto tolua_lerror;
+#endif
+    
+    self = static_cast<CCBReader*>(tolua_tousertype(tolua_S,1,0));
+#if COCOS2D_DEBUG >= 1
+    if (nullptr == self) {
+        tolua_error(tolua_S,"invalid 'self' in function 'tolua_cocos2d_CCBReader_getSubReaders'\n", NULL);
+        return 0;
+    }
+#endif
+    
+    argc = lua_gettop(tolua_S) - 1;
+    
+    if (argc == 0)
+    {
+        auto tolua_ret = self->getDocumentControllerName();
+        if (tolua_ret.empty()) {
+            return 0;
+        }
+        
+        lua_pushstring(tolua_S, tolua_ret.c_str());
+        return 1;
+    }
+    
+    CCLOG("'getDocumentControllerName' function of CCBReader  has wrong number of arguments: %d, was expecting %d\n", argc, 0);
+    return 0;
+    
+#if COCOS2D_DEBUG >= 1
+tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'getDocumentControllerName'.",&tolua_err);
+    return 0;
+#endif
+}
+
 static void extendCCBReader(lua_State* tolua_S)
 {
     lua_pushstring(tolua_S, "cc.CCBReader");
@@ -802,7 +902,15 @@ static void extendCCBReader(lua_State* tolua_S)
     if (lua_istable(tolua_S,-1))
     {
         lua_pushstring(tolua_S,"load");
-        lua_pushcfunction(tolua_S,tolua_cocos2d_CCBReader_load );
+        lua_pushcfunction(tolua_S,tolua_cocos2d_CCBReader_load);
+        lua_rawset(tolua_S,-3);
+        
+        lua_pushstring(tolua_S,"getSubReaders");
+        lua_pushcfunction(tolua_S,tolua_cocos2d_CCBReader_getSubReaders);
+        lua_rawset(tolua_S,-3);
+        
+        lua_pushstring(tolua_S,"getDocumentControllerName");
+        lua_pushcfunction(tolua_S,tolua_cocos2d_CCBReader_getDocumentControllerName);
         lua_rawset(tolua_S,-3);
     }
     lua_pop(tolua_S, 1);

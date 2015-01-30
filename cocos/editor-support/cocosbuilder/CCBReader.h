@@ -38,18 +38,25 @@ namespace cocosbuilder {
  * @{
  */
 
+class CCBReader;
+    
 class CCBFile : public cocos2d::Node
 {
 private:
     cocos2d::Node *_CCBFileNode;
+    CCBReader *_CCBReader;
     
 public:
     CCBFile();
+    ~CCBFile();
     
     static CCBFile* create();
     
     cocos2d::Node* getCCBFileNode();
     void setCCBFileNode(Node *pNode); // retain
+    
+    CCBReader* getCCBReader();
+    void setCCBReader(CCBReader *pReader); // retain
 };
 
 /* Forward declaration. */
@@ -301,6 +308,11 @@ public:
     typedef cocos2d::Map<cocos2d::Node*, CCBAnimationManager*> CCBAnimationManagerMap;
     typedef std::shared_ptr<CCBAnimationManagerMap> CCBAnimationManagerMapPtr;
     
+    /* Jennal added */
+    std::string getDocumentControllerName();
+    void addSubCCBFile(CCBReader*);
+    cocos2d::Vector<CCBReader*>& getSubCCBFiles();
+    
     /**
      * @js NA
      * @lua NA
@@ -395,6 +407,10 @@ private:
     std::vector<std::string> _ownerCallbackNames;
     cocos2d::Vector<cocos2d::Node*> _ownerCallbackNodes;
     cocos2d::ValueVector _ownerOwnerCallbackControlEvents;
+    
+    /* Jennal added */
+    cocos2d::Vector<CCBReader*> _subCCBFiles;
+    
     std::string _CCBRootPath;
     
     bool _jsControlled;

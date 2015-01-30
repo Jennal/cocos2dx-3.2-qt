@@ -960,37 +960,48 @@ Node * NodeLoader::parsePropTypeCCBFile(Node * pNode, Node * pParent, CCBReader 
         reader->getAnimationManager()->runAnimationsForSequenceIdTweenDuration(reader->getAnimationManager()->getAutoPlaySequenceId(), 0);
     }
     
-    if (reader->isJSControlled() && pCCBReader->isJSControlled() && nullptr == reader->_owner)
+    if (reader->isJSControlled() && pCCBReader->isJSControlled())
     {
-        //set variables and callback to owner
-        //set callback
-        auto ownerCallbackNames = reader->getOwnerCallbackNames();
-        auto& ownerCallbackNodes = reader->getOwnerCallbackNodes();
-        if (!ownerCallbackNames.empty() && !ownerCallbackNodes.empty())
+        //Jennal Modified: need to check this??
+        if (reader->_owner == nullptr)
         {
-            CCASSERT(ownerCallbackNames.size() == ownerCallbackNodes.size(), "");
-            ssize_t nCount = ownerCallbackNames.size();
-            
-            for (ssize_t i = 0 ; i < nCount; i++)
+            //set variables and callback to owner
+            //set callback
+            auto ownerCallbackNames = reader->getOwnerCallbackNames();
+            auto& ownerCallbackNodes = reader->getOwnerCallbackNodes();
+            if (!ownerCallbackNames.empty() && !ownerCallbackNodes.empty())
             {
-                pCCBReader->addOwnerCallbackName(ownerCallbackNames[i].asString());
-                pCCBReader->addOwnerCallbackNode(ownerCallbackNodes.at(i));
+                CCASSERT(ownerCallbackNames.size() == ownerCallbackNodes.size(), "");
+                ssize_t nCount = ownerCallbackNames.size();
+                
+                for (ssize_t i = 0 ; i < nCount; i++)
+                {
+                    pCCBReader->addOwnerCallbackName(ownerCallbackNames[i].asString());
+                    pCCBReader->addOwnerCallbackNode(ownerCallbackNodes.at(i));
+                }
+            }
+            //set variables
+            auto ownerOutletNames = reader->getOwnerOutletNames();
+            auto ownerOutletNodes = reader->getOwnerOutletNodes();
+            if (!ownerOutletNames.empty() && !ownerOutletNodes.empty())
+            {
+                CCASSERT(ownerOutletNames.size() == ownerOutletNodes.size(), "");
+                ssize_t nCount = ownerOutletNames.size();
+                
+                for (ssize_t i = 0 ; i < nCount; i++)
+                {
+                    pCCBReader->addOwnerOutletName(ownerOutletNames.at(i).asString());
+                    pCCBReader->addOwnerOutletNode(ownerOutletNodes.at(i));
+                }
             }
         }
-        //set variables
-        auto ownerOutletNames = reader->getOwnerOutletNames();
-        auto ownerOutletNodes = reader->getOwnerOutletNodes();
-        if (!ownerOutletNames.empty() && !ownerOutletNodes.empty())
-        {
-            CCASSERT(ownerOutletNames.size() == ownerOutletNodes.size(), "");
-            ssize_t nCount = ownerOutletNames.size();
-            
-            for (ssize_t i = 0 ; i < nCount; i++)
-            {
-                pCCBReader->addOwnerOutletName(ownerOutletNames.at(i).asString());
-                pCCBReader->addOwnerOutletNode(ownerOutletNodes.at(i));
-            }
-        }
+        
+        //Jennal added
+        CCBFile* ccbFile = dynamic_cast<CCBFile*>(pNode);
+        if (ccbFile != nullptr) ccbFile->setCCBReader(reader);
+        
+//        auto subFiles = reader->getSubCCBFiles();
+//        pCCBReader->addSubCCBFiles(subFiles);
     }
     return ccbFileNode;
 }
