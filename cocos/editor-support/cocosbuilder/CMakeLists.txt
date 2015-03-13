@@ -11,6 +11,7 @@ set(CCB_SRC
   CCParticleSystemQuadLoader.cpp
   CCLabelTTFLoader.cpp
   CCScale9SpriteLoader.cpp
+  CCRepeat9SpriteLoader.cpp
   CCLayerColorLoader.cpp
   CCScrollViewLoader.cpp
   CCLayerGradientLoader.cpp

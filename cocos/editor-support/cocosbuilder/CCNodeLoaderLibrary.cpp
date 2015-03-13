@@ -7,6 +7,7 @@
 #include "CCLabelTTFLoader.h"
 #include "CCSpriteLoader.h"
 #include "CCScale9SpriteLoader.h"
+#include "CCRepeat9SpriteLoader.h"
 #include "CCBFileLoader.h"
 #include "CCMenuLoader.h"
 #include "CCMenuItemLoader.h"
@@ -36,6 +37,7 @@ void NodeLoaderLibrary::registerDefaultNodeLoaders() {
     this->registerNodeLoader("CCLabelBMFont", LabelBMFontLoader::loader());
     this->registerNodeLoader("CCLabelTTF", LabelTTFLoader::loader());
     this->registerNodeLoader("CCScale9Sprite", Scale9SpriteLoader::loader());
+    this->registerNodeLoader("CCRepeat9Sprite", Repeat9SpriteLoader::loader());
     this->registerNodeLoader("CCScrollView", ScrollViewLoader::loader());
     this->registerNodeLoader("CCBFile", CCBFileLoader::loader());
     this->registerNodeLoader("CCMenu", MenuLoader::loader());

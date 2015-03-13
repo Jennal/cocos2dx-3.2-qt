@@ -370,6 +370,9 @@ add_subdirectory(external/lua/lua)
 # tolua
 add_subdirectory(external/lua/tolua)
 
+# luasocket
+add_subdirectory(external/lua/luasocket)
+
 # luabinding
 add_subdirectory(cocos/scripting/lua-bindings)
 

@@ -19,6 +19,8 @@ set(EXTENSIONS_SRC
   GUI/CCScrollView/CCScrollView.cpp
   GUI/CCScrollView/CCTableView.cpp
   GUI/CCScrollView/CCTableViewCell.cpp
+  GUI/CCControlExtension/RepeatNode/Repeat9Sprite.cpp
+  GUI/CCControlExtension/RepeatNode/RepeatNode.cpp
   physics-nodes/CCPhysicsDebugNode.cpp
   physics-nodes/CCPhysicsSprite.cpp
 )
