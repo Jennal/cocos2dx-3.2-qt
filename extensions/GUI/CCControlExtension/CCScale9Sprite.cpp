@@ -158,7 +158,12 @@ bool Scale9Sprite::updateWithBatchNode(SpriteBatchNode* batchnode, const Rect& o
     if ( _capInsetsInternal.equals(Rect::ZERO) )
     {
         // log("... cap insets not specified : using default cap insets ...");
-        _capInsetsInternal = Rect(w/3, h/3, w/3, h/3);
+        _capInsetsInternal = Rect(
+                                    w - floorf(w/3) * 2,
+                                    h - floorf(h/3) * 2,
+                                    floorf(w/3),
+                                    floorf(h/3)
+                                  );
     }
 
     float left_w = _capInsetsInternal.origin.x;
