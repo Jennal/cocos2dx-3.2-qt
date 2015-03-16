@@ -19,6 +19,7 @@ NS_CC_EXT_BEGIN
 RepeatNode::RepeatNode(void)
 :_texture(nullptr),
 _repeatMode(RepeatEnum::RepeatNone),
+_rotated(false),
 _needUpdate(false)
 {
 }
@@ -96,7 +97,7 @@ void RepeatNode::updateRepeatNode()
 
 void RepeatNode::addSprite(float scaleX, float scaleY, const cocos2d::Vec2 &position)
 {
-    Sprite* sprite = Sprite::createWithTexture(_texture, _rect);
+    Sprite* sprite = Sprite::createWithTexture(_texture, _rect, _rotated);
     this->addChild(sprite);
     sprite->setScaleX(scaleX);
     sprite->setScaleY(scaleY);
@@ -112,6 +113,7 @@ bool RepeatNode::init(RepeatEnum repeatMode, cocos2d::Texture2D * texture, const
     this->_texture = texture;
     this->_texture->retain();
     this->_rect = rect;
+    this->_rotated = rotated;
     this->setRepeatMode(repeatMode);
     this->setContentSize(rect.size);
     return true;
