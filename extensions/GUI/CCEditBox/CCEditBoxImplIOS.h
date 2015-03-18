@@ -26,15 +26,15 @@
 #ifndef __CCEditBoxIMPLIOS_H__
 #define __CCEditBoxIMPLIOS_H__
 
-#include "cocos2d.h"
-
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-
-#include "extensions/ExtensionMacros.h"
-#include "CCEditBoxImpl.h"
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+
+#include "cocos2d.h"
+
+#include "extensions/ExtensionMacros.h"
+#include "CCEditBoxImpl.h"
 
 @interface CCCustomUITextField : UITextField
 {
@@ -136,6 +136,9 @@ private:
 
 NS_CC_EXT_END
 
+#else /* #if (CC_TARGET_PLATFORM != CC_PLATFORM_IOS) */
+
+#include "cocos2d.h"
 
 #endif /* #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS) */
 
