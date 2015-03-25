@@ -4,6 +4,7 @@ set(CCB_SRC
   CCBReader.cpp
   CCMenuItemLoader.cpp
   CCControlButtonLoader.cpp
+  CCControlButtonBMFontLoader.cpp
   CCNodeLoader.cpp
   CCControlLoader.cpp
   CCNodeLoaderLibrary.cpp

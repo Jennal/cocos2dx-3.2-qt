@@ -13,6 +13,7 @@
 #include "CCMenuItemLoader.h"
 #include "CCMenuItemImageLoader.h"
 #include "CCControlButtonLoader.h"
+#include "CCControlButtonBMFontLoader.h"
 #include "CCParticleSystemQuadLoader.h"
 #include "CCScrollViewLoader.h"
 
@@ -43,6 +44,7 @@ void NodeLoaderLibrary::registerDefaultNodeLoaders() {
     this->registerNodeLoader("CCMenu", MenuLoader::loader());
     this->registerNodeLoader("CCMenuItemImage", MenuItemImageLoader::loader());
     this->registerNodeLoader("CCControlButton", ControlButtonLoader::loader());
+    this->registerNodeLoader("CCControlButtonBMFont", ControlButtonBMFontLoader::loader());
     this->registerNodeLoader("CCParticleSystemQuad", ParticleSystemQuadLoader::loader());
 }
 
