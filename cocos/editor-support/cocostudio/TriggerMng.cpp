@@ -193,6 +193,8 @@ bool TriggerMng::isEmpty(void) const
     
 void TriggerMng::buildJson(rapidjson::Document &document, cocostudio::CocoLoader *pCocoLoader, cocostudio::stExpCocoNode *pCocoNode)
 {
+    rapidjson::Value val;
+    
     int count = pCocoNode[13].GetChildNum();
     int length = 0;
     int num = 0;
@@ -236,7 +238,8 @@ void TriggerMng::buildJson(rapidjson::Document &document, cocostudio::CocoLoader
                         {
                             if (str2 != nullptr)
                             {
-                                action.AddMember("classname", str2, allocator);
+                                val.SetString(str2, allocator);
+                                action.AddMember("classname", val, allocator);
                             }
                         }
                         else if (key2.compare("dataitems") == 0)
@@ -257,7 +260,8 @@ void TriggerMng::buildJson(rapidjson::Document &document, cocostudio::CocoLoader
                                     {
                                         if (str3 != nullptr)
                                         {
-                                            dataitem.AddMember("key", str3, allocator);
+                                            val.SetString(str3, allocator);
+                                            dataitem.AddMember("key", val, allocator);
                                         }
                                     }
                                     else
@@ -265,7 +269,8 @@ void TriggerMng::buildJson(rapidjson::Document &document, cocostudio::CocoLoader
                                         rapidjson::Type type = pDataItemArray[i5].GetType(pCocoLoader);
                                         if (type == rapidjson::kStringType)
                                         {
-                                            dataitem.AddMember("value", str3, allocator);
+                                            val.SetString(str3, allocator);
+                                            dataitem.AddMember("value", val, allocator);
                                         }
                                         else
                                         {
@@ -312,7 +317,8 @@ void TriggerMng::buildJson(rapidjson::Document &document, cocostudio::CocoLoader
                         {
                             if (str4 != nullptr)
                             {
-                                cond.AddMember("classname", str4, allocator);
+                                val.SetString(str4, allocator);
+                                cond.AddMember("classname", val, allocator);
                             }
                         }
                         else if (key4.compare("dataitems") == 0)
@@ -333,7 +339,8 @@ void TriggerMng::buildJson(rapidjson::Document &document, cocostudio::CocoLoader
                                     {
                                         if (str5 != nullptr)
                                         {
-                                            dataitem.AddMember("key", str5, allocator);
+                                            val.SetString(str5, allocator);
+                                            dataitem.AddMember("key", val, allocator);
                                         }
                                     }
                                     else
@@ -341,7 +348,8 @@ void TriggerMng::buildJson(rapidjson::Document &document, cocostudio::CocoLoader
                                         rapidjson::Type type = pDataItemArray[i9].GetType(pCocoLoader);
                                         if (type == rapidjson::kStringType)
                                         {
-                                            dataitem.AddMember("value", str5, allocator);
+                                            val.SetString(str5, allocator);
+                                            dataitem.AddMember("value", val, allocator);
                                         }
                                         else
                                         {

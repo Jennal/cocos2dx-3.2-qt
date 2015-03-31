@@ -27,6 +27,7 @@ LOCAL_SRC_FILES := manual/CCLuaBridge.cpp \
           manual/lua_cocos2dx_experimental_video_manual.cpp \
           manual/lua_cocos2dx_deprecated.cpp \
           manual/lua_xml_http_request.cpp \
+          manual/lua_json.cpp \
           manual/platform/android/CCLuaJavaBridge.cpp \
           manual/platform/android/jni/Java_org_cocos2dx_lib_Cocos2dxLuaJavaBridge.cpp \
           manual/tolua_fix.cpp \
@@ -83,7 +84,8 @@ LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/../../../external/lua/tolua \
                            $(LOCAL_PATH)/../../../external/lua/luajit/include \
                            $(LOCAL_PATH)/../external \
                            $(LOCAL_PATH)/auto \
-                           $(LOCAL_PATH)/manual
+                           $(LOCAL_PATH)/manual \
+                           $(LOCAL_PATH)/../../../extensions \
 
 
 LOCAL_WHOLE_STATIC_LIBRARIES := luajit_static

@@ -63,6 +63,7 @@ extern "C" {
 #include "lua_cocos2dx_extension_manual.h"
 #include "lua_cocos2dx_deprecated.h"
 #include "lua_xml_http_request.h"
+#include "lua_json.h"
 #include "lua_cocos2dx_studio_auto.hpp"
 #include "lua_cocos2dx_coco_studio_manual.hpp"
 #include "lua_cocos2dx_spine_auto.hpp"
@@ -203,6 +204,7 @@ bool LuaStack::init(void)
 #endif
     
     register_xml_http_request(_state);
+    register_all_json(_state);
     register_all_cocos2dx_deprecated(_state);
     register_all_cocos2dx_manual_deprecated(_state);
     

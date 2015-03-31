@@ -27,6 +27,7 @@ set(LUABINDING_SRC
   manual/lua_cocos2dx_physics_manual.cpp
   manual/lua_cocos2dx_spine_manual.cpp
   manual/lua_cocos2dx_ui_manual.cpp
+  manual/lua_json.cpp
   manual/Lua_web_socket.cpp
   manual/lua_xml_http_request.cpp
   manual/LuaBasicConversions.cpp
