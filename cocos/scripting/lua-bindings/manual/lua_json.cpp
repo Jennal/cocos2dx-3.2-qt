@@ -164,7 +164,7 @@ bool fill_json(lua_State* L, rapidjson::Value* jsonVal, rapidjson::Document* doc
     }
     
     for (auto item : list) {
-        if (! item.first or ! item.second) {
+        if (! item.first || ! item.second) {
             if (item.first) delete item.first;
             if (item.second) delete item.second;
             continue;
