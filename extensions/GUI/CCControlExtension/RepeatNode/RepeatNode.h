@@ -9,20 +9,22 @@
 #ifndef __RDTower__RepeatNode__
 #define __RDTower__RepeatNode__
 
-#include "cocos2d.h"
+#include "2d/CCNode.h"
+#include "2d/CCSpriteFrame.h"
+#include "2d/CCSpriteBatchNode.h"
 #include "../CCControlUtils.h"
 #include "RepeatEnum.h"
 
-using namespace cocos2d;
+//USING_NS_CC;
 
 NS_CC_EXT_BEGIN
 
-class RepeatNode : public cocos2d::Node
+class RepeatNode : public Node
 {
 public:
     RepeatNode(void);
     ~RepeatNode(void);
-    static RepeatNode* create(RepeatEnum mode, cocos2d::Texture2D* texture, const Rect& tRect, bool rotated=false)
+    static RepeatNode* create(RepeatEnum mode, Texture2D* texture, const Rect& tRect, bool rotated=false)
     {
         RepeatNode* rnode = new RepeatNode();
         if (rnode->init(mode,texture, tRect, rotated)) {

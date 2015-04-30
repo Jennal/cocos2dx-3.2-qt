@@ -99,6 +99,7 @@
     <ClCompile Include="..\CCBReader.cpp" />
     <ClCompile Include="..\CCBSequence.cpp" />
     <ClCompile Include="..\CCBSequenceProperty.cpp" />
+    <ClCompile Include="..\CCControlButtonBMFontLoader.cpp" />
     <ClCompile Include="..\CCControlButtonLoader.cpp" />
     <ClCompile Include="..\CCControlLoader.cpp" />
     <ClCompile Include="..\CCLabelBMFontLoader.cpp" />
@@ -112,9 +113,11 @@
     <ClCompile Include="..\CCNodeLoader.cpp" />
     <ClCompile Include="..\CCNodeLoaderLibrary.cpp" />
     <ClCompile Include="..\CCParticleSystemQuadLoader.cpp" />
+    <ClCompile Include="..\CCRepeat9SpriteLoader.cpp" />
     <ClCompile Include="..\CCScale9SpriteLoader.cpp" />
     <ClCompile Include="..\CCScrollViewLoader.cpp" />
     <ClCompile Include="..\CCSpriteLoader.cpp" />
+    <ClCompile Include="..\TTFConfigLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\CCBAnimationManager.h" />
@@ -125,6 +128,7 @@
     <ClInclude Include="..\CCBSelectorResolver.h" />
     <ClInclude Include="..\CCBSequence.h" />
     <ClInclude Include="..\CCBSequenceProperty.h" />
+    <ClInclude Include="..\CCControlButtonBMFontLoader.h" />
     <ClInclude Include="..\CCControlButtonLoader.h" />
     <ClInclude Include="..\CCControlLoader.h" />
     <ClInclude Include="..\CCLabelBMFontLoader.h" />
@@ -140,10 +144,12 @@
     <ClInclude Include="..\CCNodeLoaderLibrary.h" />
     <ClInclude Include="..\CCNodeLoaderListener.h" />
     <ClInclude Include="..\CCParticleSystemQuadLoader.h" />
+    <ClInclude Include="..\CCRepeat9SpriteLoader.h" />
     <ClInclude Include="..\CCScale9SpriteLoader.h" />
     <ClInclude Include="..\CCScrollViewLoader.h" />
     <ClInclude Include="..\CCSpriteLoader.h" />
     <ClInclude Include="..\CocosBuilder.h" />
+    <ClInclude Include="..\TTFConfigLoader.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

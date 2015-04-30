@@ -23,6 +23,7 @@ set(CCB_SRC
   CCBSequence.cpp
   CCBSequenceProperty.cpp
   CCNode+CCBRelativePositioning.cpp
+  TTFConfigLoader.cpp
 )
 
 include_directories(

@@ -7,12 +7,17 @@
 //
 
 #include "RepeatNode.h"
+#include "base/CCPlatformMacros.h"
+#include "2d/CCSprite.h"
+#include "2d/CCSpriteFrameCache.h"
 
 // #define HERE
 
 //using namespace here
 
 //define static/const params here
+
+//USING_NS_CC;
 
 NS_CC_EXT_BEGIN
 
@@ -33,7 +38,7 @@ RepeatNode::~RepeatNode(void)
     }
 }
 
-void RepeatNode::setContentSize(const cocos2d::Size &size)
+void RepeatNode::setContentSize(const Size &size)
 {
     if(size.equals(this->getContentSize()))
     {
@@ -83,7 +88,7 @@ void RepeatNode::updateRepeatNode()
     
     Vec2 p = Vec2(0, 0);
     for (int index = 0; index < repeatTimes; index++) {
-        //设置偏移量
+        /* 设置偏移量 */
         if(index > 0){
             if (_repeatMode == RepeatHorizon){
                 p.x = _rect.size.width * scaleX + p.x;
@@ -95,7 +100,7 @@ void RepeatNode::updateRepeatNode()
     }
 }
 
-void RepeatNode::addSprite(float scaleX, float scaleY, const cocos2d::Vec2 &position)
+void RepeatNode::addSprite(float scaleX, float scaleY, const Vec2 &position)
 {
     Sprite* sprite = Sprite::createWithTexture(_texture, _rect, _rotated);
     this->addChild(sprite);
@@ -105,7 +110,7 @@ void RepeatNode::addSprite(float scaleX, float scaleY, const cocos2d::Vec2 &posi
     sprite->setPosition(position);
 }
 
-bool RepeatNode::init(RepeatEnum repeatMode, cocos2d::Texture2D * texture, const cocos2d::Rect &rect, bool rotated /* = false */)
+bool RepeatNode::init(RepeatEnum repeatMode, Texture2D * texture, const Rect &rect, bool rotated /* = false */)
 {
     CCASSERT(texture,"texture is null");
     this->setCascadeColorEnabled(true);
@@ -119,7 +124,7 @@ bool RepeatNode::init(RepeatEnum repeatMode, cocos2d::Texture2D * texture, const
     return true;
 }
 
-void RepeatNode::visit(cocos2d::Renderer *renderer, const cocos2d::Mat4 &parentTransform, uint32_t parentFlags)
+void RepeatNode::visit(Renderer *renderer, const Mat4 &parentTransform, uint32_t parentFlags)
 {
     if(this->_needUpdate)
     {

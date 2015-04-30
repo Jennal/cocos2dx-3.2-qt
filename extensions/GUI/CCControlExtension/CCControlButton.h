@@ -230,6 +230,8 @@ protected:
     CC_PROPERTY(bool, _zoomOnTouchDown, ZoomOnTouchDown);
     /** Scale ratio button on touchdown. Default value 1.1f */
     CC_SYNTHESIZE(float, _scaleRatio, ScaleRatio);
+    CC_SYNTHESIZE(float, _scaleOriginX, ScaleOriginX);
+    CC_SYNTHESIZE(float, _scaleOriginY, ScaleOriginY);
 
     CC_PROPERTY_PASS_BY_REF(Vec2, _labelAnchorPoint, LabelAnchorPoint);
 

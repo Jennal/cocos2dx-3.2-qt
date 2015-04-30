@@ -5,13 +5,14 @@
 #include "2d/CCLabel.h"
 
 #include "CCNodeLoader.h"
+#include "TTFConfigLoader.h"
 
 namespace cocosbuilder {
 
 /* Forward declaration. */
 class CCBReader;
 
-class LabelTTFLoader : public NodeLoader {
+class LabelTTFLoader : public NodeLoader, public TTFConfigLoader {
 public:
     /**
      * @js NA
@@ -23,7 +24,9 @@ public:
 protected:
     CCB_VIRTUAL_NEW_AUTORELEASE_CREATECCNODE_METHOD(cocos2d::Label);
 
+    virtual void onHandlePropTypeCheck(cocos2d::Node *pNode, cocos2d::Node *pParent, const char *pPropertyName, bool pCheck, cocosbuilder::CCBReader *ccbReader);
     virtual void onHandlePropTypeColor3(cocos2d::Node * pNode, cocos2d::Node * pParent, const char * pPropertyName, cocos2d::Color3B pColor3B, CCBReader * ccbReader);
+//    virtual void onHandlePropTypeColor4FVar(cocos2d::Node * pNode, cocos2d::Node * pParent, const char* pPropertyName, cocos2d::Color4F * pColor4FVar, CCBReader * ccbReader);
     virtual void onHandlePropTypeByte(cocos2d::Node * pNode, cocos2d::Node * pParent, const char * pPropertyName, unsigned char pByte, CCBReader * ccbReader);
     virtual void onHandlePropTypeBlendFunc(cocos2d::Node * pNode, cocos2d::Node * pParent, const char * pPropertyName, cocos2d::BlendFunc pBlendFunc, CCBReader * ccbReader);
     virtual void onHandlePropTypeFontTTF(cocos2d::Node * pNode, cocos2d::Node * pParent, const char * pPropertyName, const char * pFontTTF, CCBReader * ccbReader);
@@ -31,6 +34,9 @@ protected:
     virtual void onHandlePropTypeFloatScale(cocos2d::Node * pNode, cocos2d::Node * pParent, const char * pPropertyName, float pFloatScale, CCBReader * ccbReader);
     virtual void onHandlePropTypeIntegerLabeled(cocos2d::Node * pNode, cocos2d::Node * pParent, const char * pPropertyName, int pIntegerLabeled, CCBReader * ccbReader);
     virtual void onHandlePropTypeSize(cocos2d::Node * pNode, cocos2d::Node * pParent, const char * pPropertyName, cocos2d::Size pSize, CCBReader * ccbReader);
+    
+    virtual void onPropParseBegin(cocos2d::Node *pNode, cocos2d::Node *pParent, cocosbuilder::CCBReader *ccbReader);
+    virtual void onPropParseEnd(cocos2d::Node *pNode, cocos2d::Node *pParent, cocosbuilder::CCBReader *ccbReader);
 };
 
 }

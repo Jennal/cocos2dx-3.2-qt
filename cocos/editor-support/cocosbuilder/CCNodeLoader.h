@@ -19,7 +19,7 @@ namespace cocosbuilder {
 #define PROPERTY_IGNOREANCHORPOINTFORPOSITION "ignoreAnchorPointForPosition"
 #define PROPERTY_VISIBLE "visible"
 
-#define ASSERT_FAIL_UNEXPECTED_PROPERTY(PROPERTY) cocos2d::log("Unexpected property: '%s'!\n", PROPERTY); assert(false)
+#define ASSERT_FAIL_UNEXPECTED_PROPERTY(PROPERTY) cocos2d::log("Unexpected property: '%s'!\n", PROPERTY)/*; assert(false)*/
 #define ASSERT_FAIL_UNEXPECTED_PROPERTYTYPE(PROPERTYTYPE) cocos2d::log("Unexpected property type: '%d'!\n", PROPERTYTYPE); assert(false)
 
 #define CCB_VIRTUAL_NEW_AUTORELEASE_CREATECCNODE_METHOD(T) virtual T * createNode(cocos2d::Node * pParent, cocosbuilder::CCBReader * ccbReader) { \
@@ -138,6 +138,8 @@ class NodeLoader : public cocos2d::Ref {
         virtual void onHandlePropTypeBlockControl(cocos2d::Node * pNode, cocos2d::Node * pParent, const char* pPropertyName, BlockControlData * pBlockControlData, CCBReader * ccbReader);
         virtual void onHandlePropTypeCCBFile(cocos2d::Node * pNode, cocos2d::Node * pParent, const char* pPropertyName, cocos2d::Node * pCCBFileNode, CCBReader * ccbReader);
 
+        virtual void onPropParseBegin(cocos2d::Node * pNode, cocos2d::Node * pParent, CCBReader * ccbReader);
+        virtual void onPropParseEnd(cocos2d::Node * pNode, cocos2d::Node * pParent, CCBReader * ccbReader);
 protected:
         cocos2d::ValueMap _customProperties;
 };

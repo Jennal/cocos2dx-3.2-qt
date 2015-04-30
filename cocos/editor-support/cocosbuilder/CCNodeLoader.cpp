@@ -38,6 +38,8 @@ Node * NodeLoader::loadNode(Node * pParent, CCBReader * ccbReader)
 
 void NodeLoader::parseProperties(Node * pNode, Node * pParent, CCBReader * ccbReader)
 {
+    this->onPropParseBegin(pNode, pParent, ccbReader);
+    
     int numRegularProps = ccbReader->readInt(false);
     int numExturaProps = ccbReader->readInt(false);
     int propertyCount = numRegularProps + numExturaProps;
@@ -365,6 +367,7 @@ void NodeLoader::parseProperties(Node * pNode, Node * pParent, CCBReader * ccbRe
                 break;
         }
     }
+    this->onPropParseEnd(pNode, pParent, ccbReader);
 }
 
 Vec2 NodeLoader::parsePropTypePosition(Node * pNode, Node * pParent, CCBReader * ccbReader, const char *pPropertyName)
@@ -1171,4 +1174,14 @@ void NodeLoader::onHandlePropTypeCCBFile(Node * pNode, Node * pParent, const cha
     ASSERT_FAIL_UNEXPECTED_PROPERTY(pPropertyName);
 }
 
+void NodeLoader::onPropParseBegin(cocos2d::Node * pNode, cocos2d::Node * pParent, CCBReader * ccbReader)
+{
+    /* DO NOTHING */
+}
+
+void NodeLoader::onPropParseEnd(cocos2d::Node * pNode, cocos2d::Node * pParent, CCBReader * ccbReader)
+{
+    /* DO NOTHING */
+}
+    
 }

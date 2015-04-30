@@ -12,6 +12,7 @@ CCBReader.cpp \
 CCBSequence.cpp \
 CCBSequenceProperty.cpp \
 CCControlButtonLoader.cpp \
+CCControlButtonBMFontLoader.cpp \
 CCControlLoader.cpp \
 CCLabelBMFontLoader.cpp \
 CCLabelTTFLoader.cpp \
@@ -25,8 +26,10 @@ CCNodeLoader.cpp \
 CCNodeLoaderLibrary.cpp \
 CCParticleSystemQuadLoader.cpp \
 CCScale9SpriteLoader.cpp \
+CCRepeat9SpriteLoader.cpp \
 CCScrollViewLoader.cpp \
-CCSpriteLoader.cpp
+CCSpriteLoader.cpp \
+TTFConfigLoader.cpp
 
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/.. \
 $(LOCAL_PATH)/../../..

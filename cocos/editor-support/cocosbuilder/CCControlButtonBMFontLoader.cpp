@@ -21,4 +21,12 @@ void ControlButtonBMFontLoader::onHandlePropTypeFntFile(Node * pNode, Node * pPa
     }
 }
     
+void ControlButtonBMFontLoader::onPropParseBegin(cocos2d::Node *pNode, cocos2d::Node *pParent, cocosbuilder::CCBReader *ccbReader)
+{
+}
+
+void ControlButtonBMFontLoader::onPropParseEnd(cocos2d::Node *pNode, cocos2d::Node *pParent, cocosbuilder::CCBReader *ccbReader)
+{
+}
+    
 };

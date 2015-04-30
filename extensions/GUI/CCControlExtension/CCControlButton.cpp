@@ -173,7 +173,6 @@ void ControlButton::setEnabled(bool enabled)
 void ControlButton::setSelected(bool enabled)
 {
     Control::setSelected(enabled);
-    needsLayout();
 }
 
 void ControlButton::setHighlighted(bool enabled)
@@ -198,7 +197,9 @@ void ControlButton::setHighlighted(bool enabled)
     if( _zoomOnTouchDown )
     {
         float scaleValue = (isHighlighted() && isEnabled() && !isSelected()) ? _scaleRatio : 1.0f;
-        Action *zoomAction = ScaleTo::create(0.05f, scaleValue);
+        float scaleX = getScaleOriginX();
+        float scaleY = getScaleOriginY();
+        Action *zoomAction = ScaleTo::create(0.05f, scaleValue*scaleX, scaleValue*scaleY);
         zoomAction->setTag(kZoomActionTag);
         runAction(zoomAction);
     }
@@ -513,7 +514,15 @@ void ControlButton::needsLayout()
     }
     
     // Update the background sprite
-    this->setBackgroundSprite(this->getBackgroundSpriteForState(_state));
+    if (_selected)
+    {
+        this->setBackgroundSprite(this->getBackgroundSpriteForState(Control::State::SELECTED));
+    }
+    else
+    {
+        this->setBackgroundSprite(this->getBackgroundSpriteForState(_state));
+    }
+
     if (_backgroundSprite != nullptr)
     {
         _backgroundSprite->setPosition(Vec2 (getContentSize().width / 2, getContentSize().height / 2));
