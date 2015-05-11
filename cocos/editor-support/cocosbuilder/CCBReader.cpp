@@ -141,6 +141,7 @@ CCBReader::~CCBReader()
     // Clear string cache.
     this->_stringCache.clear();
 
+    _animationManagers->clear();
     setAnimationManager(nullptr);
 }
 
