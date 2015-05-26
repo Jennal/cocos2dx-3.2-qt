@@ -590,7 +590,15 @@ void SpriteBatchNode::removeSpriteFromAtlas(Sprite *sprite)
 void SpriteBatchNode::updateBlendFunc(void)
 {
     if (! _textureAtlas->getTexture()->hasPremultipliedAlpha())
+    {
         _blendFunc = BlendFunc::ALPHA_NON_PREMULTIPLIED;
+        setOpacityModifyRGB(false);
+    }
+    else
+    {
+        _blendFunc = BlendFunc::ALPHA_PREMULTIPLIED;
+        setOpacityModifyRGB(true);
+    }
 }
 
 // CocosNodeTexture protocol
