@@ -35,7 +35,7 @@ $ make
 
 #### Requirement
 
-* [msys2](http://brew.sh/)
+* [msys2](http://sourceforge.net/projects/msys2/)
 * [Qt5](http://www.qt.io/download-open-source/#section-3)
 
 #### Setup Qt Enviroment
