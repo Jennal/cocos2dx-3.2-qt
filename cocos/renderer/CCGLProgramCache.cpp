@@ -40,6 +40,7 @@ enum {
     kShaderType_PositionTextureColorAlphaTestNoMV,
     kShaderType_PositionColor,
     kShaderType_PositionColor_noMVP,
+    kShaderType_UIGrayScale,
     kShaderType_PositionTexture,
     kShaderType_PositionTexture_uColor,
     kShaderType_PositionTextureA8Color,
@@ -142,6 +143,10 @@ void GLProgramCache::loadDefaultGLPrograms()
     loadDefaultGLProgram(p, kShaderType_PositionColor_noMVP);
     _programs.insert( std::make_pair(GLProgram::SHADER_NAME_POSITION_COLOR_NO_MVP, p) );
 
+    p = new (std::nothrow) GLProgram();
+    loadDefaultGLProgram(p, kShaderType_UIGrayScale);
+    _programs.insert(std::make_pair(GLProgram::SHADER_NAME_POSITION_GRAYSCALE, p));
+    
     //
     // Position Texture shader
     //
@@ -311,6 +316,10 @@ void GLProgramCache::loadDefaultGLProgram(GLProgram *p, int type)
     switch (type) {
         case kShaderType_PositionTextureColor:
             p->initWithByteArrays(ccPositionTextureColor_vert, ccPositionTextureColor_frag);
+            break;
+        case kShaderType_UIGrayScale:
+            p->initWithByteArrays(ccPositionTextureColor_noMVP_vert,
+                                  ccPositionTexture_GrayScale_frag);
             break;
         case kShaderType_PositionTextureColor_noMVP:
             p->initWithByteArrays(ccPositionTextureColor_noMVP_vert, ccPositionTextureColor_noMVP_frag);

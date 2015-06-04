@@ -53,6 +53,7 @@ NS_CC_BEGIN
 #include "ccShader_PositionTextureColor_noMVP.frag"
 #include "ccShader_PositionTextureColor_noMVP.vert"
 
+#include "ccShader_UI_Gray.frag"
 //
 #include "ccShader_PositionTextureColorAlphaTest.frag"
 
