@@ -202,7 +202,8 @@ bool FontAtlas::prepareLetterDefinitions(const std::u16string& utf16String)
     
     size_t length = utf16String.length();
 
-    float offsetAdjust = _letterPadding / 2;  
+    float offsetAdjust = _letterPadding / 2;
+    float outlineSize = fontTTf->getOutlineSize();
     long bitmapWidth;
     long bitmapHeight;
     Rect tempRect;
@@ -232,7 +233,7 @@ bool FontAtlas::prepareLetterDefinitions(const std::u16string& utf16String)
                 tempDef.width            = tempRect.size.width + _letterPadding;
                 tempDef.height           = tempRect.size.height + _letterPadding;
                 tempDef.offsetX          = tempRect.origin.x + offsetAdjust;
-                tempDef.offsetY          = _fontAscender + tempRect.origin.y - offsetAdjust;
+                tempDef.offsetY          = _fontAscender + tempRect.origin.y - offsetAdjust + outlineSize;
                 tempDef.clipBottom     = bottomHeight - (tempDef.height + tempRect.origin.y + offsetAdjust);
 
                 if (_currentPageOrigX + tempDef.width > CacheTextureWidth)
