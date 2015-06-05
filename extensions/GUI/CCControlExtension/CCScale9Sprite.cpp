@@ -467,7 +467,7 @@ bool Scale9Sprite::updateWithSprite(Sprite* sprite,
     // Release old sprites
     this->cleanupSlicedSprites();
     _protectedChildren.clear();
-    
+    this->removeAllChildren();
     updateBlendFunc(sprite?sprite->getTexture():nullptr);
     
     if(nullptr != sprite)
@@ -1059,7 +1059,7 @@ void Scale9Sprite::setState(cocos2d::extension::Scale9Sprite::State state)
     
     if (_scale9Enabled)
     {
-        for (auto& sp : _protectedChildren)
+        for (auto& sp : _children)
         {
             sp->setGLProgramState(glState);
         }
@@ -1194,25 +1194,25 @@ void Scale9Sprite::visit(Renderer *renderer, const Mat4 &parentTransform, uint32
             break;
     }
     
-    if (_scale9Enabled)
-    {
-        for( ; j < _protectedChildren.size(); j++ )
-        {
-            auto node = _protectedChildren.at(j);
-            
-            if ( node && node->getLocalZOrder() < 0 )
-                node->visit(renderer, _modelViewTransform, flags);
-            else
-                break;
-        }
-    }
-    else
-    {
-        if (_scale9Image && _scale9Image->getLocalZOrder() < 0 )
-        {
-            _scale9Image->visit(renderer, _modelViewTransform, flags);
-        }
-    }
+//    if (_scale9Enabled)
+//    {
+//        for( ; j < _protectedChildren.size(); j++ )
+//        {
+//            auto node = _protectedChildren.at(j);
+//            
+//            if ( node && node->getLocalZOrder() < 0 )
+//                node->visit(renderer, _modelViewTransform, flags);
+//            else
+//                break;
+//        }
+//    }
+//    else
+//    {
+//        if (_scale9Image && _scale9Image->getLocalZOrder() < 0 )
+//        {
+//            _scale9Image->visit(renderer, _modelViewTransform, flags);
+//        }
+//    }
     
     //
     // draw self
@@ -1223,18 +1223,18 @@ void Scale9Sprite::visit(Renderer *renderer, const Mat4 &parentTransform, uint32
     //
     // draw children and protectedChildren zOrder >= 0
     //
-    if (_scale9Enabled)
-    {
-        for(auto it=_protectedChildren.cbegin()+j; it != _protectedChildren.cend(); ++it)
-            (*it)->visit(renderer, _modelViewTransform, flags);
-    }
-    else
-    {
-        if (_scale9Image && _scale9Image->getLocalZOrder() >= 0 )
-        {
-            _scale9Image->visit(renderer, _modelViewTransform, flags);
-        }
-    }
+//    if (_scale9Enabled)
+//    {
+//        for(auto it=_protectedChildren.cbegin()+j; it != _protectedChildren.cend(); ++it)
+//            (*it)->visit(renderer, _modelViewTransform, flags);
+//    }
+//    else
+//    {
+//        if (_scale9Image && _scale9Image->getLocalZOrder() >= 0 )
+//        {
+//            _scale9Image->visit(renderer, _modelViewTransform, flags);
+//        }
+//    }
     
     
     for(auto it=_children.cbegin()+i; it != _children.cend(); ++it)
@@ -1322,7 +1322,8 @@ bool Scale9Sprite::isScale9Enabled() const
 void Scale9Sprite::addProtectedChild(cocos2d::Node *child)
 {
     _reorderProtectedChildDirty = true;
-    _protectedChildren.pushBack(child);
+    this->addChild(child);
+//    _protectedChildren.pushBack(child);
 }
 
 void Scale9Sprite::sortAllProtectedChildren()
