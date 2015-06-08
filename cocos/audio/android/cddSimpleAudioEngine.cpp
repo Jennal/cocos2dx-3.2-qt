@@ -71,6 +71,8 @@ namespace CocosDenshion {
                                                float pan,
                                                float gain) {
         return 0; }
+    void SimpleAudioEngine::setEffectAttr(unsigned int id, float pitch, float pan, float gain) { }
+    void SimpleAudioEngine::getEffectAttr(unsigned int id, float* pitch, float* pan, float* gain) { }
     void SimpleAudioEngine::pauseEffect(unsigned int nSoundId) { }
     void SimpleAudioEngine::pauseAllEffects() { }
     void SimpleAudioEngine::resumeEffect(unsigned int nSoundId) { }

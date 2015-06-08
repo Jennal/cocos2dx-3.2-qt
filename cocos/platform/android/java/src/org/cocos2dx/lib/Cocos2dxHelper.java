@@ -211,6 +211,14 @@ public class Cocos2dxHelper {
 	public static int playEffect(final String path, final boolean isLoop, final float pitch, final float pan, final float gain) {
 		return Cocos2dxHelper.sCocos2dSound.playEffect(path, isLoop, pitch, pan, gain);
 	}
+	
+	public static void setEffect(final int soundId, final float pitch, final float pan, final float gain) {
+		Cocos2dxHelper.sCocos2dSound.setEffect(soundId, pitch, pan, gain);
+	}
+	
+	public static Cocos2dxSound.SoundAttr getEffect(final int soundId) {
+		return Cocos2dxHelper.sCocos2dSound.getEffect(soundId);
+	}
 
 	public static void resumeEffect(final int soundId) {
 		Cocos2dxHelper.sCocos2dSound.resumeEffect(soundId);

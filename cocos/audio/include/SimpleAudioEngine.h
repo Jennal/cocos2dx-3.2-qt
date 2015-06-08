@@ -185,7 +185,20 @@ public:
     */
     virtual unsigned int playEffect(const char* pszFilePath, bool bLoop = false,
                                     float pitch = 1.0f, float pan = 0.0f, float gain = 1.0f);
-
+    /**
+     @brief Set sound effect with pitch, pan and gain while sound is playing
+     @param id the OpenAL source id
+     @param pitch Frequency, normal value is 1.0. Will also change effect play time.
+     @param pan   Stereo effect, in the range of [-1..1] where -1 enables only left channel.
+     @param gain  Volume, in the range of [0..1]. The normal value is 1.
+     
+     @note Full support is under development, now there are limitations:
+     - no pitch effect on Samsung Galaxy S2 with OpenSL backend enabled;
+     - no pitch/pan/gain on emscrippten, win32, marmalade.
+     */
+    virtual void setEffectAttr(unsigned int id, float pitch, float pan = 0.0f, float gain = 1.0f);
+    virtual void getEffectAttr(unsigned int id, float* pitch, float* pan, float* gain);
+    
     /**
     @brief Pause playing sound effect
     @param nSoundId The return value of function playEffect

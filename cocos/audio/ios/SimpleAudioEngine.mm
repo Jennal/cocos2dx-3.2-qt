@@ -98,7 +98,17 @@ static unsigned int static_playEffect(const char* pszFilePath, bool bLoop, Float
 {
     return [[SimpleAudioEngine sharedEngine] playEffect:[NSString stringWithUTF8String: pszFilePath] loop:bLoop pitch:pszPitch pan: pszPan gain:pszGain];
 }
-     
+
+static void static_setEffect(unsigned int soundId, Float32 pszPitch, Float32 pszPan, Float32 pszGain)
+{
+    return [[SimpleAudioEngine sharedEngine] setEffect:soundId pitch:pszPitch pan: pszPan gain:pszGain ];
+}
+
+static void static_getEffect(unsigned int soundId, Float32* pszPitch, Float32* pszPan, Float32* pszGain)
+{
+    return [[SimpleAudioEngine sharedEngine] getEffect:soundId pitch:pszPitch pan: pszPan gain:pszGain ];
+}
+
 static void static_stopEffect(int nSoundId)
 {
     [[SimpleAudioEngine sharedEngine] stopEffect: nSoundId];
@@ -246,6 +256,16 @@ unsigned int SimpleAudioEngine::playEffect(const char *pszFilePath, bool bLoop,
     return static_playEffect(fullPath.c_str(), bLoop, pitch, pan, gain);
 }
 
+void SimpleAudioEngine::setEffectAttr(unsigned int id, float pitch, float pan, float gain)
+{
+    static_setEffect(id, pitch, pan, gain);
+}
+
+void SimpleAudioEngine::getEffectAttr(unsigned int id, float* pitch, float* pan, float* gain)
+{
+    static_getEffect(id, pitch, pan, gain);
+}
+    
 void SimpleAudioEngine::stopEffect(unsigned int nSoundId)
 {
     static_stopEffect(nSoundId);

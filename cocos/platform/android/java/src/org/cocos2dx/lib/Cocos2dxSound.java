@@ -30,12 +30,13 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.Semaphore;
-
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.util.Log;
 
+@SuppressLint("UseSparseArrays")
 public class Cocos2dxSound {
 	// ===========================================================
 	// Constants
@@ -73,6 +74,21 @@ public class Cocos2dxSound {
 	private final static int INVALID_SOUND_ID = -1;
 	private final static int INVALID_STREAM_ID = -1;
 
+	public class SoundAttr {
+		public float pitch = 0.0f;
+		public float pan = 0.0f;
+		public float gain = 0.0f;
+		
+		public SoundAttr(float pitch, float pan, float gain)
+		{
+			this.pitch = pitch;
+			this.pan = pan;
+			this.gain = gain;
+		}
+	};
+	
+	private final HashMap<Integer, SoundAttr> mSoundAttrMap = new HashMap<Integer, Cocos2dxSound.SoundAttr>();
+	
 	// ===========================================================
 	// Constructors
 	// ===========================================================
@@ -140,6 +156,7 @@ public class Cocos2dxSound {
 		if(soundID != null){
 			this.mSoundPool.unload(soundID);
 			this.mPathSoundIDMap.remove(pPath);
+			this.mSoundAttrMap.remove(soundID);
 		}
 	}
 
@@ -190,6 +207,8 @@ public class Cocos2dxSound {
 				break;
 			}
 		}
+		
+		this.mSoundAttrMap.remove(steamID);
 	}
 
 	public void pauseEffect(final int steamID) {
@@ -241,6 +260,7 @@ public class Cocos2dxSound {
 
 		// remove records
 		this.mPathStreamIDsMap.clear();
+		this.mSoundAttrMap.clear();
 	}
 
 	public float getEffectsVolume() {
@@ -275,6 +295,7 @@ public class Cocos2dxSound {
 		this.mPathStreamIDsMap.clear();
 		this.mPathSoundIDMap.clear();
 		this.mEffecToPlayWhenLoadedArray.clear();
+		this.mSoundAttrMap.clear();
 
 		this.mLeftVolume = 0.5f;
 		this.mRightVolume = 0.5f;
@@ -308,6 +329,22 @@ public class Cocos2dxSound {
 			return Math.max(min, (Math.min(value, max)));
 		}
 
+	public void setEffect(final int steamID, float pitch, float pan, float gain) {
+		float leftVolume = this.mLeftVolume * gain * (1.0f - this.clamp(pan, 0.0f, 1.0f));
+		float rightVolume = this.mRightVolume * gain * (1.0f - this.clamp(-pan, 0.0f, 1.0f));
+		float soundRate = this.clamp(SOUND_RATE * pitch, 0.5f, 2.0f);
+		
+		this.mSoundPool.setRate(steamID, soundRate);
+		this.mSoundPool.setVolume(steamID, leftVolume, rightVolume);
+		
+		this.mSoundAttrMap.put(steamID, new SoundAttr(pitch, pan, gain));
+	}
+	
+	public SoundAttr getEffect(final int steamID) {
+		SoundAttr attr = this.mSoundAttrMap.get(steamID);
+		return attr;
+	}
+	
 	private int doPlayEffect(final String pPath, final int soundId, final boolean pLoop, float pitch, float pan, float gain) {
 		float leftVolume = this.mLeftVolume * gain * (1.0f - this.clamp(pan, 0.0f, 1.0f));
 		float rightVolume = this.mRightVolume * gain * (1.0f - this.clamp(-pan, 0.0f, 1.0f));
@@ -315,7 +352,8 @@ public class Cocos2dxSound {
 
 		// play sound
 		int streamID = this.mSoundPool.play(soundId, this.clamp(leftVolume, 0.0f, 1.0f), this.clamp(rightVolume, 0.0f, 1.0f), Cocos2dxSound.SOUND_PRIORITY, pLoop ? -1 : 0, soundRate);
-
+		this.mSoundAttrMap.put(streamID, new SoundAttr(pitch, pan, gain));
+		
 		// record stream id
 		ArrayList<Integer> streamIDs = this.mPathStreamIDsMap.get(pPath);
 		if (streamIDs == null) {

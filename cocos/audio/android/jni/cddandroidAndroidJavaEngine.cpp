@@ -48,6 +48,19 @@ namespace CocosDenshion {
                                                            paramCode);
         }
 
+        float AndroidJavaEngine::getFloatField(jobject obj, 
+                                                const char* className, 
+                                                const char* fieldName)
+        {
+            JNIEnv* env = cocos2d::JniHelper::getEnv();
+
+            jclass clazz = env->FindClass(className);
+            jfieldID field = env->GetFieldID( clazz, fieldName, "F");
+            float result = (float)env->GetFloatField(obj, field);
+
+            return result;
+        }
+
         AndroidJavaEngine::~AndroidJavaEngine() {
             cocos2d::JniMethodInfo methodInfo;
 
@@ -223,6 +236,38 @@ namespace CocosDenshion {
             methodInfo.env->DeleteLocalRef(methodInfo.classID);
         
             return (unsigned int)ret;
+        }
+
+        void AndroidJavaEngine::setEffectAttr(unsigned int id, float pitch, float pan, float gain)
+        {
+            cocos2d::JniMethodInfo methodInfo;
+            if (! getJNIStaticMethodInfo(methodInfo, "setEffect", "(IFFF)V")) {
+                return;
+            }
+        
+            methodInfo.env->CallStaticVoidMethod(methodInfo.classID,
+                                                      methodInfo.methodID,
+                                                      id,
+                                                      pitch, pan, gain);
+            methodInfo.env->DeleteLocalRef(methodInfo.classID);
+        }
+
+        void AndroidJavaEngine::getEffectAttr(unsigned int id, float* pitch, float* pan, float* gain)
+        {
+            cocos2d::JniMethodInfo methodInfo;
+            if (! getJNIStaticMethodInfo(methodInfo, "getEffect", "(I)Lorg/cocos2dx/lib/Cocos2dxSound/SoundAttr;")) {
+                return;
+            }
+        
+            jobject obj = methodInfo.env->CallStaticObjectMethod(methodInfo.classID,
+                                                      methodInfo.methodID,
+                                                      id);
+            methodInfo.env->DeleteLocalRef(methodInfo.classID);
+
+            const char* className = "org/cocos2dx/lib/Cocos2dxSound/SoundAttr";
+            *pitch = getFloatField(obj, className, "pitch");
+            *pan = getFloatField(obj, className, "pan");
+            *gain = getFloatField(obj, className, "gain");
         }
 
         void AndroidJavaEngine::pauseEffect(unsigned int nSoundId) {

@@ -876,6 +876,85 @@ static BOOL _mixerRateSet = NO;
     }    
 }
 
+-(void) setSound:(ALuint)source pitch:(float)pitch pan:(float)pan gain:(float)gain
+{
+#ifdef CD_DEBUG
+    //Sanity check parameters - only in DEBUG
+    NSAssert(pitch > 0, @"pitch must be greater than zero");
+    NSAssert(pan >= -1 && pan <= 1, @"pan must be between -1 and 1");
+    NSAssert(gain >= 0, @"gain can not be negative");
+#endif
+    //If mute or initialisation has failed or buffer is not loaded then do nothing
+    if (!enabled_ || !functioning_) {
+        return;
+    }
+    
+    ALint state;
+    //        ALuint buffer = _buffers[soundId].bufferId;
+    alGetError();//Clear the error code
+    alGetSourcei(source, AL_SOURCE_STATE, &state);
+    if (state != AL_PLAYING) {
+        return;
+        //            alSourceStop(source);
+    }
+    //        alSourcei(source, AL_BUFFER, buffer);//Attach to sound
+    alSourcef(source, AL_PITCH, pitch);//Set pitch
+    //        alSourcei(source, AL_LOOPING, loop);//Set looping
+    alSourcef(source, AL_GAIN, gain);//Set gain/volume
+    float sourcePosAL[] = {pan, 0.0f, 0.0f};//Set position - just using left and right panning
+    alSourcefv(source, AL_POSITION, sourcePosAL);
+    alGetError();//Clear the error code
+    //        alSourcePlay(source);
+    if((lastErrorCode_ = alGetError()) == AL_NO_ERROR) {
+        //Everything was okay
+        //            _sources[sourceIndex].attachedBufferId = buffer;
+        return;
+    } else {
+        if (alcGetCurrentContext() == NULL) {
+            CDLOGINFO(@"Denshion::CDSoundEngine - posting bad OpenAL context message");
+            [[NSNotificationCenter defaultCenter] postNotificationName:kCDN_BadAlContext object:nil];
+        }
+        return;
+    }
+}
+
+-(void) getSound:(ALuint)source pitch:(float*)pitch pan:(float*)pan gain:(float*)gain
+{
+    //If mute or initialisation has failed or buffer is not loaded then do nothing
+    if (!enabled_ || !functioning_) {
+        return;
+    }
+    
+    ALint state;
+    //        ALuint buffer = _buffers[soundId].bufferId;
+    alGetError();//Clear the error code
+    alGetSourcei(source, AL_SOURCE_STATE, &state);
+    if (state != AL_PLAYING) {
+        return;
+        //            alSourceStop(source);
+    }
+    //        alSourcei(source, AL_BUFFER, buffer);//Attach to sound
+    alGetSourcef(source, AL_PITCH, pitch);//Set pitch
+    //        alSourcei(source, AL_LOOPING, loop);//Set looping
+    alGetSourcef(source, AL_GAIN, gain);//Set gain/volume
+    float sourcePosAL[] = {0.0f, 0.0f, 0.0f};//Set position - just using left and right panning
+    alGetSourcefv(source, AL_POSITION, sourcePosAL);
+    *pan = sourcePosAL[0];
+    alGetError();//Clear the error code
+    //        alSourcePlay(source);
+    if((lastErrorCode_ = alGetError()) == AL_NO_ERROR) {
+        //Everything was okay
+        //            _sources[sourceIndex].attachedBufferId = buffer;
+        return;
+    } else {
+        if (alcGetCurrentContext() == NULL) {
+            CDLOGINFO(@"Denshion::CDSoundEngine - posting bad OpenAL context message");
+            [[NSNotificationCenter defaultCenter] postNotificationName:kCDN_BadAlContext object:nil];
+        }
+        return;
+    }
+}
+
 -(BOOL) _soundSourceAttachToBuffer:(CDSoundSource*) soundSource soundId:(int) soundId  {
     //Attach the source to the buffer
     ALint state;

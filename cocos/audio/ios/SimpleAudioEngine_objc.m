@@ -138,6 +138,16 @@ static CDBufferManager *bufferManager = nil;
     }    
 }
 
+-(void) setEffect:(ALuint)soundId pitch:(Float32)pitch pan:(Float32)pan gain:(Float32)gain
+{
+    [soundEngine setSound:soundId pitch:pitch pan:pan gain:gain];
+}
+
+-(void) getEffect:(ALuint)soundId pitch:(Float32*)pitch pan:(Float32*)pan gain:(Float32*)gain
+{
+    [soundEngine getSound:soundId pitch:pitch pan:pan gain:gain];
+}
+
 -(void) stopEffect:(ALuint) soundId {
     [soundEngine stopSound:soundId];
 }    

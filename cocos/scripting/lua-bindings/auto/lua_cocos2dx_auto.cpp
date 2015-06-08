@@ -1,8 +1,6 @@
 #include "lua_cocos2dx_auto.hpp"
 #include "cocos2d.h"
-#ifndef NO_AUDIO
 #include "SimpleAudioEngine.h"
-#endif
 #include "CCProtectedNode.h"
 #include "CCAnimation3D.h"
 #include "CCAnimate3D.h"
@@ -13964,7 +13962,7 @@ int lua_cocos2dx_Director_getVisibleSize(lua_State* tolua_S)
 
     return 0;
 }
-int lua_cocos2dx_Director_getScheduler(lua_State* tolua_S)
+int lua_cocos2dx_Director_changeLevelToTop(lua_State* tolua_S)
 {
     int argc = 0;
     cocos2d::Director* cobj = nullptr;
@@ -13984,26 +13982,28 @@ int lua_cocos2dx_Director_getScheduler(lua_State* tolua_S)
 #if COCOS2D_DEBUG >= 1
     if (!cobj) 
     {
-        tolua_error(tolua_S,"invalid 'cobj' in function 'lua_cocos2dx_Director_getScheduler'", nullptr);
+        tolua_error(tolua_S,"invalid 'cobj' in function 'lua_cocos2dx_Director_changeLevelToTop'", nullptr);
         return 0;
     }
 #endif
 
     argc = lua_gettop(tolua_S)-1;
-    if (argc == 0) 
+    if (argc == 1) 
     {
+        int arg0;
+
+        ok &= luaval_to_int32(tolua_S, 2,(int *)&arg0);
         if(!ok)
             return 0;
-        cocos2d::Scheduler* ret = cobj->getScheduler();
-        object_to_luaval<cocos2d::Scheduler>(tolua_S, "cc.Scheduler",(cocos2d::Scheduler*)ret);
-        return 1;
+        cobj->changeLevelToTop(arg0);
+        return 0;
     }
-    CCLOG("%s has wrong number of arguments: %d, was expecting %d \n", "getScheduler",argc, 0);
+    CCLOG("%s has wrong number of arguments: %d, was expecting %d \n", "changeLevelToTop",argc, 1);
     return 0;
 
 #if COCOS2D_DEBUG >= 1
     tolua_lerror:
-    tolua_error(tolua_S,"#ferror in function 'lua_cocos2dx_Director_getScheduler'.",&tolua_err);
+    tolua_error(tolua_S,"#ferror in function 'lua_cocos2dx_Director_changeLevelToTop'.",&tolua_err);
 #endif
 
     return 0;
@@ -14327,6 +14327,50 @@ int lua_cocos2dx_Director_multiplyMatrix(lua_State* tolua_S)
 
     return 0;
 }
+int lua_cocos2dx_Director_getScheduler(lua_State* tolua_S)
+{
+    int argc = 0;
+    cocos2d::Director* cobj = nullptr;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertype(tolua_S,1,"cc.Director",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    cobj = (cocos2d::Director*)tolua_tousertype(tolua_S,1,0);
+
+#if COCOS2D_DEBUG >= 1
+    if (!cobj) 
+    {
+        tolua_error(tolua_S,"invalid 'cobj' in function 'lua_cocos2dx_Director_getScheduler'", nullptr);
+        return 0;
+    }
+#endif
+
+    argc = lua_gettop(tolua_S)-1;
+    if (argc == 0) 
+    {
+        if(!ok)
+            return 0;
+        cocos2d::Scheduler* ret = cobj->getScheduler();
+        object_to_luaval<cocos2d::Scheduler>(tolua_S, "cc.Scheduler",(cocos2d::Scheduler*)ret);
+        return 1;
+    }
+    CCLOG("%s has wrong number of arguments: %d, was expecting %d \n", "getScheduler",argc, 0);
+    return 0;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_cocos2dx_Director_getScheduler'.",&tolua_err);
+#endif
+
+    return 0;
+}
 int lua_cocos2dx_Director_getActionManager(lua_State* tolua_S)
 {
     int argc = 0;
@@ -14467,7 +14511,7 @@ int lua_register_cocos2dx_Director(lua_State* tolua_S)
         tolua_function(tolua_S,"resetMatrixStack",lua_cocos2dx_Director_resetMatrixStack);
         tolua_function(tolua_S,"popMatrix",lua_cocos2dx_Director_popMatrix);
         tolua_function(tolua_S,"getVisibleSize",lua_cocos2dx_Director_getVisibleSize);
-        tolua_function(tolua_S,"getScheduler",lua_cocos2dx_Director_getScheduler);
+        tolua_function(tolua_S,"changeLevelToTop",lua_cocos2dx_Director_changeLevelToTop);
         tolua_function(tolua_S,"setAnimationInterval",lua_cocos2dx_Director_setAnimationInterval);
         tolua_function(tolua_S,"getAnimationInterval",lua_cocos2dx_Director_getAnimationInterval);
         tolua_function(tolua_S,"isPaused",lua_cocos2dx_Director_isPaused);
@@ -14475,6 +14519,7 @@ int lua_register_cocos2dx_Director(lua_State* tolua_S)
         tolua_function(tolua_S,"getEventDispatcher",lua_cocos2dx_Director_getEventDispatcher);
         tolua_function(tolua_S,"replaceScene",lua_cocos2dx_Director_replaceScene);
         tolua_function(tolua_S,"multiplyMatrix",lua_cocos2dx_Director_multiplyMatrix);
+        tolua_function(tolua_S,"getScheduler",lua_cocos2dx_Director_getScheduler);
         tolua_function(tolua_S,"getActionManager",lua_cocos2dx_Director_getActionManager);
         tolua_function(tolua_S,"getInstance", lua_cocos2dx_Director_getInstance);
     tolua_endmodule(tolua_S);
@@ -63274,8 +63319,6 @@ int lua_register_cocos2dx_Animate3D(lua_State* tolua_S)
     return 1;
 }
 
-#ifndef NO_AUDIO
-
 int lua_cocos2dx_SimpleAudioEngine_preloadBackgroundMusic(lua_State* tolua_S)
 {
     int argc = 0;
@@ -63896,6 +63939,135 @@ int lua_cocos2dx_SimpleAudioEngine_playEffect(lua_State* tolua_S)
 
     return 0;
 }
+int lua_cocos2dx_SimpleAudioEngine_setEffectAttr(lua_State* tolua_S)
+{
+    int argc = 0;
+    CocosDenshion::SimpleAudioEngine* cobj = nullptr;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertype(tolua_S,1,"cc.SimpleAudioEngine",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    cobj = (CocosDenshion::SimpleAudioEngine*)tolua_tousertype(tolua_S,1,0);
+
+#if COCOS2D_DEBUG >= 1
+    if (!cobj) 
+    {
+        tolua_error(tolua_S,"invalid 'cobj' in function 'lua_cocos2dx_SimpleAudioEngine_setEffectAttr'", nullptr);
+        return 0;
+    }
+#endif
+
+    argc = lua_gettop(tolua_S)-1;
+    if (argc == 2) {
+        double arg0;
+        double arg1;
+
+        ok &= luaval_to_number(tolua_S, 2,&arg0);
+        ok &= luaval_to_number(tolua_S, 3,&arg1);
+        if(!ok)
+            return 0;
+        cobj->setEffectAttr((unsigned int)arg0, arg1);
+        return 0;
+    }
+    if (argc == 3) 
+    {
+        double arg0;
+        double arg1;
+        double arg2;
+
+        ok &= luaval_to_number(tolua_S, 2,&arg0);
+        ok &= luaval_to_number(tolua_S, 3,&arg1);
+        ok &= luaval_to_number(tolua_S, 4,&arg2);
+        if(!ok)
+            return 0;
+        cobj->setEffectAttr((unsigned int)arg0, arg1, arg2);
+        return 0;
+    }
+    if (argc == 4) 
+    {
+        double arg0;
+        double arg1;
+        double arg2;
+        double arg3;
+
+        ok &= luaval_to_number(tolua_S, 2,&arg0);
+        ok &= luaval_to_number(tolua_S, 3,&arg1);
+        ok &= luaval_to_number(tolua_S, 4,&arg2);
+        ok &= luaval_to_number(tolua_S, 5,&arg3);
+        if(!ok)
+            return 0;
+        cobj->setEffectAttr((unsigned int)arg0, arg1, arg2, arg3);
+        return 0;
+    }
+    CCLOG("%s has wrong number of arguments: %d, was expecting %d-%d \n", "setEffectAttr",argc, 2, 4);
+    return 0;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_cocos2dx_SimpleAudioEngine_setEffectAttr'.",&tolua_err);
+#endif
+
+    return 0;
+}
+int lua_cocos2dx_SimpleAudioEngine_getEffectAttr(lua_State* tolua_S)
+{
+    int argc = 0;
+    CocosDenshion::SimpleAudioEngine* cobj = nullptr;
+    bool ok  = true;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+
+
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertype(tolua_S,1,"cc.SimpleAudioEngine",0,&tolua_err)) goto tolua_lerror;
+#endif
+
+    cobj = (CocosDenshion::SimpleAudioEngine*)tolua_tousertype(tolua_S,1,0);
+
+#if COCOS2D_DEBUG >= 1
+    if (!cobj) 
+    {
+        tolua_error(tolua_S,"invalid 'cobj' in function 'lua_cocos2dx_SimpleAudioEngine_getEffectAttr'", nullptr);
+        return 0;
+    }
+#endif
+
+    argc = lua_gettop(tolua_S)-1;
+    if (argc == 1) {
+        double arg0;
+        ok &= luaval_to_number(tolua_S, 2,&arg0);
+
+        float pin;
+        float pan;
+        float gain;
+
+        cobj->getEffectAttr((unsigned int)arg0, &pin, &pan, &gain);
+
+        tolua_pushnumber(tolua_S,(lua_Number)pin);
+        tolua_pushnumber(tolua_S,(lua_Number)pan);
+        tolua_pushnumber(tolua_S,(lua_Number)gain);
+
+        return 3;
+    }
+    CCLOG("%s has wrong number of arguments: %d, was expecting %d \n", "getEffectAttr",argc, 1);
+    return 0;
+
+#if COCOS2D_DEBUG >= 1
+    tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_cocos2dx_SimpleAudioEngine_getEffectAttr'.",&tolua_err);
+#endif
+
+    return 0;
+}
 int lua_cocos2dx_SimpleAudioEngine_rewindBackgroundMusic(lua_State* tolua_S)
 {
     int argc = 0;
@@ -64378,23 +64550,12 @@ static int lua_cocos2dx_SimpleAudioEngine_finalize(lua_State* tolua_S)
     return 0;
 }
 
-#else /* NO_AUDIO */
-
-static int lua_cocos2dx_SimpleAudioEngine_diabled(lua_State* tolua_S)
-{
-    CC_UNUSED_PARAM(tolua_S);
-    return 0;
-}
-
-#endif /* NO_AUDIO */
-
 int lua_register_cocos2dx_SimpleAudioEngine(lua_State* tolua_S)
 {
     tolua_usertype(tolua_S,"cc.SimpleAudioEngine");
     tolua_cclass(tolua_S,"SimpleAudioEngine","cc.SimpleAudioEngine","",nullptr);
 
     tolua_beginmodule(tolua_S,"SimpleAudioEngine");
-#ifndef NO_AUDIO
         tolua_function(tolua_S,"preloadMusic",lua_cocos2dx_SimpleAudioEngine_preloadBackgroundMusic);
         tolua_function(tolua_S,"stopMusic",lua_cocos2dx_SimpleAudioEngine_stopBackgroundMusic);
         tolua_function(tolua_S,"stopAllEffects",lua_cocos2dx_SimpleAudioEngine_stopAllEffects);
@@ -64407,6 +64568,8 @@ int lua_register_cocos2dx_SimpleAudioEngine(lua_State* tolua_S)
         tolua_function(tolua_S,"willPlayMusic",lua_cocos2dx_SimpleAudioEngine_willPlayBackgroundMusic);
         tolua_function(tolua_S,"pauseEffect",lua_cocos2dx_SimpleAudioEngine_pauseEffect);
         tolua_function(tolua_S,"playEffect",lua_cocos2dx_SimpleAudioEngine_playEffect);
+        tolua_function(tolua_S,"setEffectAttr",lua_cocos2dx_SimpleAudioEngine_setEffectAttr);
+        tolua_function(tolua_S,"getEffectAttr",lua_cocos2dx_SimpleAudioEngine_getEffectAttr);
         tolua_function(tolua_S,"rewindMusic",lua_cocos2dx_SimpleAudioEngine_rewindBackgroundMusic);
         tolua_function(tolua_S,"playMusic",lua_cocos2dx_SimpleAudioEngine_playBackgroundMusic);
         tolua_function(tolua_S,"resumeAllEffects",lua_cocos2dx_SimpleAudioEngine_resumeAllEffects);
@@ -64418,38 +64581,9 @@ int lua_register_cocos2dx_SimpleAudioEngine(lua_State* tolua_S)
         tolua_function(tolua_S,"resumeEffect",lua_cocos2dx_SimpleAudioEngine_resumeEffect);
         tolua_function(tolua_S,"destroyInstance", lua_cocos2dx_SimpleAudioEngine_end);
         tolua_function(tolua_S,"getInstance", lua_cocos2dx_SimpleAudioEngine_getInstance);
-#else /* NO_AUDIO */
-        tolua_function(tolua_S,"preloadMusic",lua_cocos2dx_SimpleAudioEngine_diabled);
-        tolua_function(tolua_S,"stopMusic",lua_cocos2dx_SimpleAudioEngine_diabled);
-        tolua_function(tolua_S,"stopAllEffects",lua_cocos2dx_SimpleAudioEngine_diabled);
-        tolua_function(tolua_S,"getMusicVolume",lua_cocos2dx_SimpleAudioEngine_diabled);
-        tolua_function(tolua_S,"resumeMusic",lua_cocos2dx_SimpleAudioEngine_diabled);
-        tolua_function(tolua_S,"setMusicVolume",lua_cocos2dx_SimpleAudioEngine_diabled);
-        tolua_function(tolua_S,"preloadEffect",lua_cocos2dx_SimpleAudioEngine_diabled);
-        tolua_function(tolua_S,"isMusicPlaying",lua_cocos2dx_SimpleAudioEngine_diabled);
-        tolua_function(tolua_S,"getEffectsVolume",lua_cocos2dx_SimpleAudioEngine_diabled);
-        tolua_function(tolua_S,"willPlayMusic",lua_cocos2dx_SimpleAudioEngine_diabled);
-        tolua_function(tolua_S,"pauseEffect",lua_cocos2dx_SimpleAudioEngine_diabled);
-        tolua_function(tolua_S,"playEffect",lua_cocos2dx_SimpleAudioEngine_diabled);
-        tolua_function(tolua_S,"rewindMusic",lua_cocos2dx_SimpleAudioEngine_diabled);
-        tolua_function(tolua_S,"playMusic",lua_cocos2dx_SimpleAudioEngine_diabled);
-        tolua_function(tolua_S,"resumeAllEffects",lua_cocos2dx_SimpleAudioEngine_diabled);
-        tolua_function(tolua_S,"setEffectsVolume",lua_cocos2dx_SimpleAudioEngine_diabled);
-        tolua_function(tolua_S,"stopEffect",lua_cocos2dx_SimpleAudioEngine_diabled);
-        tolua_function(tolua_S,"pauseMusic",lua_cocos2dx_SimpleAudioEngine_diabled);
-        tolua_function(tolua_S,"pauseAllEffects",lua_cocos2dx_SimpleAudioEngine_diabled);
-        tolua_function(tolua_S,"unloadEffect",lua_cocos2dx_SimpleAudioEngine_diabled);
-        tolua_function(tolua_S,"resumeEffect",lua_cocos2dx_SimpleAudioEngine_diabled);
-        tolua_function(tolua_S,"destroyInstance",lua_cocos2dx_SimpleAudioEngine_diabled);
-        tolua_function(tolua_S,"getInstance",lua_cocos2dx_SimpleAudioEngine_diabled);
-#endif
     tolua_endmodule(tolua_S);
-#ifndef NO_AUDIO
     std::string typeName = typeid(CocosDenshion::SimpleAudioEngine).name();
     g_luaType[typeName] = "cc.SimpleAudioEngine";
-#else /* NO_AUDIO */
-    g_luaType["CocosDenshion::SimpleAudioEngine"] = "cc.SimpleAudioEngine";
-#endif /* NO_AUDIO */
     g_typeCast["SimpleAudioEngine"] = "cc.SimpleAudioEngine";
     return 1;
 }

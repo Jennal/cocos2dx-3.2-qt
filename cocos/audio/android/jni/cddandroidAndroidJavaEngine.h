@@ -47,6 +47,8 @@ namespace CocosDenshion {
             void setEffectsVolume(float volume);
             unsigned int playEffect(const char* pszFilePath, bool bLoop = false,
                                     float pitch = 1.0f, float pan = 0.0f, float gain = 1.0f);
+            void setEffectAttr(unsigned int id, float pitch, float pan = 0.0f, float gain = 1.0f);
+            void getEffectAttr(unsigned int id, float* pitch, float* pan, float* gain);
             void pauseEffect(unsigned int nSoundId);
             void pauseAllEffects();
             void resumeEffect(unsigned int nSoundId);
@@ -60,6 +62,7 @@ namespace CocosDenshion {
             static bool getJNIStaticMethodInfo(cocos2d::JniMethodInfo &methodinfo,
                                                const char *methodName,
                                                const char *paramCode);
+            static float getFloatField(jobject, const char* className, const char* fieldName);
         };
     }
 }
