@@ -148,7 +148,7 @@ if(WIN32)
   
   endif(MSVC)
 elseif(APPLE)
-
+  ADD_DEFINITIONS (-DCC_TARGET_OS_MAC)
 
 else()#Linux
   ADD_DEFINITIONS(-DLINUX)
