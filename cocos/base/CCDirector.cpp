@@ -377,7 +377,7 @@ void Director::setOpenGLView(GLView *openGLView)
         // set size
         _winSizeInPoints = _openGLView->getDesignResolutionSize();
 
-//        createStatsLabel();
+        createStatsLabel();
 
         if (_openGLView)
         {
@@ -880,6 +880,28 @@ void Director::popScene(void)
 void Director::popToRootScene(void)
 {
     popToSceneStackLevel(1);
+}
+
+void Director::changeLevelToTop(int level)
+{
+    int index = level - 1;
+    CCASSERT(_runningScene != nullptr, "A running Scene is needed");
+    ssize_t c = _scenesStack.size();
+    if (index < 0 || index >= c - 1) {
+        return;
+    }
+    auto scene = _scenesStack.at(index);
+    scene->retain();
+    _scenesStack.erase(index);
+    _scenesStack.pushBack(scene);
+    scene->release();
+    
+    if (scene == _nextScene) { //pop
+        return;
+    }
+    
+    _sendCleanupToScene = false;
+    _nextScene = scene;
 }
 
 void Director::popToSceneStackLevel(int level)

@@ -283,6 +283,11 @@ public:
      */
  	void popToSceneStackLevel(int level);
 
+    /**
+        change level scene to top
+     */
+    void changeLevelToTop(int level);
+    
     /** Replaces the running scene with a new one. The running scene is terminated.
      * ONLY call it if there is a running scene.
      */
