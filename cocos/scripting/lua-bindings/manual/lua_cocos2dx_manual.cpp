@@ -2214,6 +2214,109 @@ tolua_lerror:
     return 0;
 #endif
 }
+static int tolua_cocos2d_Node_convertToWorldSpaceXY(lua_State* tolua_S)
+{
+    if (NULL == tolua_S)
+        return 0;
+    
+    int argc = 0;
+    Node* self = nullptr;
+    
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+    if (!tolua_isusertype(tolua_S,1,"cc.Node",0,&tolua_err)) goto tolua_lerror;
+#endif
+    
+    self = static_cast<cocos2d::Node*>(tolua_tousertype(tolua_S,1,0));
+#if COCOS2D_DEBUG >= 1
+    if (nullptr == self) {
+        tolua_error(tolua_S,"invalid 'self' in function 'tolua_cocos2d_Node_convertToWorldSpaceXY'\n", NULL);
+        return 0;
+    }
+#endif
+    
+    argc = lua_gettop(tolua_S) - 1;
+    
+    if (argc >= 0 && argc <= 2)
+    {
+#if COCOS2D_DEBUG >= 1
+        if (!tolua_isnumber(tolua_S,2,1,&tolua_err) || !tolua_isnumber(tolua_S,3,1,&tolua_err) )
+            goto tolua_lerror;
+#endif
+        float x = (float)  tolua_tonumber(tolua_S,2,0);
+        float y = (float)  tolua_tonumber(tolua_S,3,0);
+        
+        cocos2d::Vec2 vec(x, y);
+        
+        vec = self->convertToWorldSpace(vec);
+        
+        tolua_pushnumber(tolua_S,(lua_Number)vec.x);
+        tolua_pushnumber(tolua_S,(lua_Number)vec.y);
+        
+        return 2;
+    }
+    
+    CCLOG("'convertToWorldSpaceXY' function in Node has wrong number of arguments: %d, was expecting %d\n", argc, 0);
+    return 0;
+    
+#if COCOS2D_DEBUG >= 1
+tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'convertToWorldSpaceXY'.",&tolua_err);
+    return 0;
+#endif
+}
+
+static int tolua_cocos2d_Node_convertToNodeSpaceXY(lua_State* tolua_S)
+{
+    if (NULL == tolua_S)
+        return 0;
+    
+    int argc = 0;
+    Node* self = nullptr;
+    
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+    if (!tolua_isusertype(tolua_S,1,"cc.Node",0,&tolua_err)) goto tolua_lerror;
+#endif
+    
+    self = static_cast<cocos2d::Node*>(tolua_tousertype(tolua_S,1,0));
+#if COCOS2D_DEBUG >= 1
+    if (nullptr == self) {
+        tolua_error(tolua_S,"invalid 'self' in function 'tolua_cocos2d_Node_convertToNodeSpaceXY'\n", NULL);
+        return 0;
+    }
+#endif
+    
+    argc = lua_gettop(tolua_S) - 1;
+    
+    if (argc >= 0 && argc <= 2)
+    {
+#if COCOS2D_DEBUG >= 1
+        if (!tolua_isnumber(tolua_S,2,1,&tolua_err) || !tolua_isnumber(tolua_S,3,1,&tolua_err) )
+            goto tolua_lerror;
+#endif
+        float x = (float)  tolua_tonumber(tolua_S,2,0);
+        float y = (float)  tolua_tonumber(tolua_S,3,0);
+        
+        cocos2d::Vec2 vec(x, y);
+        
+        vec = self->convertToNodeSpace(vec);
+        
+        tolua_pushnumber(tolua_S,(lua_Number)vec.x);
+        tolua_pushnumber(tolua_S,(lua_Number)vec.y);
+        
+        return 2;
+    }
+    
+    CCLOG("'convertToNodeSpaceXY' function in Node has wrong number of arguments: %d, was expecting %d\n", argc, 0);
+    return 0;
+    
+#if COCOS2D_DEBUG >= 1
+tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'convertToNodeSpaceXY'.",&tolua_err);
+    return 0;
+#endif
+}
 
 static int lua_cocos2dx_Node_enumerateChildren(lua_State* tolua_S)
 {
@@ -3973,6 +4076,12 @@ static void extendNode(lua_State* tolua_S)
         lua_rawset(tolua_S, -3);
         lua_pushstring(tolua_S,"getPosition");
         lua_pushcfunction(tolua_S,tolua_cocos2d_Node_getPosition);
+        lua_rawset(tolua_S, -3);
+        lua_pushstring(tolua_S,"convertToWorldSpaceXY");
+        lua_pushcfunction(tolua_S,tolua_cocos2d_Node_convertToWorldSpaceXY);
+        lua_rawset(tolua_S, -3);
+        lua_pushstring(tolua_S,"convertToNodeSpaceXY");
+        lua_pushcfunction(tolua_S,tolua_cocos2d_Node_convertToNodeSpaceXY);
         lua_rawset(tolua_S, -3);
         lua_pushstring(tolua_S, "setContentSize");
         lua_pushcfunction(tolua_S, tolua_cocos2d_Node_setContentSize);
