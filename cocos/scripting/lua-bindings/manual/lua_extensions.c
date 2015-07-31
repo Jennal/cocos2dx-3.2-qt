@@ -4,6 +4,8 @@
 #if __cplusplus
 extern "C" {
 #endif
+
+#ifndef QT_TOOLKIT
 // socket
 #include "luasocket/luasocket.h"
 #include "luasocket/mime.h"
@@ -13,9 +15,11 @@ static luaL_Reg luax_exts[] = {
     {"mime.core", luaopen_mime_core},
     {NULL, NULL}
 };
+#endif
 
 void luaopen_lua_extensions(lua_State *L)
 {
+#ifndef QT_TOOLKIT
     // load extensions
     luaL_Reg* lib = luax_exts;
     lua_getglobal(L, "package");
@@ -26,6 +30,7 @@ void luaopen_lua_extensions(lua_State *L)
         lua_setfield(L, -2, lib->name);
     }
     lua_pop(L, 2);
+#endif
 }
 
 #if __cplusplus

@@ -68,11 +68,15 @@ if(BUILD_EDITOR_SPINE)
   set(TARGET_SPINE_LIB spine)
 endif(BUILD_EDITOR_SPINE)
 
+if(NOT ENV_QT)
+  set(LUA_SOCKET luasocket)
+endif(NOT ENV_QT)
+
 target_link_libraries(luabinding
   tolua
   lua
   xxtea
-  luasocket
+  ${LUA_SOCKET}
   ${TARGET_SPINE_LIB}
   cocos2d
   extensions
