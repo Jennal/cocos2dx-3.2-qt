@@ -33,6 +33,8 @@ THE SOFTWARE.
 #include "platform/CCApplicationProtocol.h"
 #include <string>
 #include <QtWidgets/QApplication>
+#include <functional>
+#include <vector>
 
 NS_CC_BEGIN
 class Rect;
@@ -101,14 +103,20 @@ public:
      @brief Get target platform
      */
     virtual Platform getTargetPlatform();
+
+    void runInMainThread(std::function<void(void)>);
+
 protected:
     void pollUIEvents();
+    void pollQTEvents();
 
 protected:
     long       _animationInterval;  //micro second
     std::string _resourceRootPath;
     
 	static Application * sm_pSharedApplication;
+
+    std::vector<std::function<void(void)>> m_qtEvents;
 };
 
 NS_CC_END

@@ -23,6 +23,7 @@ set(EXTENSIONS_SRC
   GUI/CCControlExtension/RepeatNode/RepeatNode.cpp
   physics-nodes/CCPhysicsDebugNode.cpp
   physics-nodes/CCPhysicsSprite.cpp
+  ext/CCSpriteWithHue.cpp
 )
 
 if(WIN32)

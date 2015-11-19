@@ -109,9 +109,11 @@ int Application::run()
     {
         lastTime = getCurrentMillSecond();
 
+        this->pollQTEvents();
+        this->pollUIEvents();
         director->mainLoop();
         glview->pollEvents();
-        this->pollUIEvents();
+
 //        this->processEvents();
 
         curTime = getCurrentMillSecond();
@@ -316,6 +318,23 @@ void Application::pollUIEvents()
     // // add the label as a child to this layer
     // scene->addChild(label, 1);
 #endif /* TEST_UI_MESSGAE */
+}
+
+void Application::runInMainThread(std::function<void(void)> func)
+{
+    m_qtEvents.push_back(func);
+    printf("\nm_qtEvents.count: %ld\n", m_qtEvents.size());
+}
+
+void Application::pollQTEvents()
+{
+    int i = 1;
+    for(auto func : m_qtEvents)
+    {
+        func();
+        printf("\nfunc - %d\n", i++);
+    }
+    m_qtEvents.clear();
 }
 
 NS_CC_END
