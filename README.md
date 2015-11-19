@@ -50,7 +50,7 @@ LIBRARY_PATH    D:\msys2\msys32\mingw32\lib
 #### Command
 
 ```
-$ pacman -S --force --noconfirm --needed glfw glew libwebp libjpeg-turbo libpng freetype libiconv zlib curl make clang binutils headers cmake
+$ pacman -S --force --noconfirm --needed mingw-w64-x86_64-glfw mingw-w64-x86_64-glew mingw-w64-x86_64-libwebp mingw-w64-x86_64-libjpeg-turbo mingw-w64-x86_64-libpng mingw-w64-x86_64-freetype mingw-w64-x86_64-libiconv mingw-w64-x86_64-zlib mingw-w64-x86_64-curl mingw-w64-x86_64-make mingw-w64-x86_64-clang mingw-w64-x86_64-binutils mingw-w64-x86_64-headers mingw-w64-x86_64-cmake
 # now you can open CMakeLists.txt from Qt Creator, to build
 ```
 
